@@ -5,7 +5,7 @@ from TagManager import SimpleTag,DoubleTag
 if __name__ == "__main__":
     print("test de la classe SimpleTag")
     tag = SimpleTag("img")
-    tag.addClassTag("test")
+    tag.addClassTag("test").addClassTag("test2")
     tag.addOther("onclick=\"alert('test')\"")
     print(tag.render())
 
