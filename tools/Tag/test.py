@@ -1,17 +1,17 @@
-import Tag
-from SimpleTag import SimpleTag 
-from DoubleTag import DoubleTag
+from TagManager import SimpleTag,DoubleTag
 
 # on test les classes
 
-tag = SimpleTag("img")
-tag.addClassTag("test")
-tag.addOther("onclick=\"alert('test')\"")
-print(tag.render())
+if __name__ == "__main__":
+    print("test de la classe SimpleTag")
+    tag = SimpleTag("img")
+    tag.addClassTag("test")
+    tag.addOther("onclick=\"alert('test')\"")
+    print(tag.render())
 
-tag = DoubleTag("p")
-tag.addClassTag("test")
-tag.setIdTag("test")
-tag.setContent("test")
-print(tag.render())
-
+    print("test de la classe DoubleTag")
+    tag = DoubleTag("p")
+    tag.addClassTag("test")
+    tag.setIdTag("test")
+    tag.setContent("test")
+    print(tag.render())
