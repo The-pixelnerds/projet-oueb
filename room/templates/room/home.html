@@ -1,0 +1,11 @@
+{% extends "room/template.html" %}
+
+{% block room_list %}
+    {% for current_room in rooms %}
+        <a href="{% url 'room:view' current_room.id %}">{{ current_room.name }}</a>
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+    <h1>please select a room in left section</h1>
+{% endblock %}
