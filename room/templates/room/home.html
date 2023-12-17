@@ -21,3 +21,12 @@
 {% block content %}
     <h1>please select a room in left section</h1>
 {% endblock %}
+
+{% block persons %}
+    {% for person in persons %}
+        <div class="person">
+            <p>{{ person.username }}</p>
+            <p>ceci est une potentiel ? description</p>
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -7,6 +7,7 @@ from user.models import *
 def home(request):
     ctx = {
         'rooms': Room.objects.all(),
+        'persons': user.objects.all(),
     }
     
     return render(request, 'room/home.html', ctx )
@@ -15,12 +16,12 @@ def room(request, room_id):
     usersess = ""
     if request.method == 'POST':
         # on recupere l'utilisateur qui a envoye le message
-        user = user_session.objects.get(user_session=request.POST["tokenId"]).user
+        userData = user_session.objects.get(user_session=request.POST["tokenId"]).user
         usersess =  request.POST["tokenId"]
         
         if request.POST["message"] != "":
             #on ajoute le message
-            mess = Message(room=Room.objects.get(id=room_id), user=user, message=request.POST["message"])
+            mess = Message(room=Room.objects.get(id=room_id), user=userData, message=request.POST["message"])
             mess.save()
     
     #get last message id if no message set to 0
@@ -35,6 +36,7 @@ def room(request, room_id):
     ctx = {
         'rooms': Room.objects.all(),
         'room': Room.objects.get(id=room_id),
+        'persons': user.objects.all(),
         'messages': Message.objects.filter(room=room_id),
         'tokenId': usersess,
         'lastMessageId': lastMessageId,

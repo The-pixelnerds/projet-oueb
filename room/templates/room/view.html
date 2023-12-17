@@ -45,3 +45,12 @@
         <input type="submit" value="Envoyer">
     </form>
 {% endblock %}
+
+{% block persons %}
+    {% for person in persons %}
+        <div class="person">
+            <p>{{ person.username }}</p>
+            <p>ceci est une potentiel ? description</p>
+        </div>
+    {% endfor %}
+{% endblock %}
