@@ -1,0 +1,13 @@
+{% extends "room/template.html" %}
+{% load static %}
+
+{% block form %}
+    {% comment %} partie qui s'occupe de l'envoie de message {% endcomment %}
+    <form action="{% url 'room:create_room' %}" method="post">
+        {% csrf_token %}
+        <label for="room-name">le nom du salon</label>
+        <input type="text" name="room-name" id="room-name" placeholder="le nom du salon">
+        <input type="text" name="tokenId" id="tokenId" value="">
+        <input type="submit" value="Envoyer">
+    </form>
+{% endblock %}

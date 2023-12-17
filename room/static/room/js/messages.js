@@ -12,15 +12,10 @@ function addMessage(message) {
 
 $(document).ready(function(){
     setInterval(function(){
-        $.get("/channels/room/"+room_id+"/messages", function(data){
-            let i = 0;
+        $.get("/channels/room/"+room_id+"/messages/"+lastMessageId, function(data){
             if(data.length == 0) return;
 
-            while (i < data.length && data[i].id != lastMessageId) {
-                i++;
-            }
-
-            for (let j = i; j > 0; j--) {
+            for (let j = data.length; j > 0; j--) {
                 addMessage(data[j-1]);
             }
 

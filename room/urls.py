@@ -5,5 +5,9 @@ app_name = 'room'
 urlpatterns = [
     path('', views.home, name='home'),
     path('room/<int:room_id>', views.room, name='view'),
-    path('room/<int:room_id>/messages', views.getMessages, name='messages'),
+    path('create', views.createroom, name='create_room'),
+    path('remove', views.removeroom, name='remove_room'),
+    
+    path('room/<int:room_id>/messages/<int:last_id>', views.getMessages, name='messages'),
+    path('room/rooms', views.getRooms, name='messages')
 ]
