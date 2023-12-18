@@ -40,7 +40,7 @@
     {% comment %} partie qui s'occupe de l'envoie de message {% endcomment %}
     <form action="{% url 'room:view' room.id %}" method="post">
         {% csrf_token %}
-        <input type="text" name="message" id="message" placeholder="Votre message">
+        <input type="text" name="message" id="message" placeholder="Votre message" autocomplete="off" autofocus>
         <input type="text" name="tokenId" id="tokenId" value="{{ tokenId }}">
         <input type="submit" value="Envoyer">
     </form>
