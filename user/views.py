@@ -4,6 +4,7 @@ from .forms import UserRegistrationForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import get_user_model, login, update_session_auth_hash
 from django.contrib import messages
+from .models import UserPermission
 
 def register(request):
     # Logged in user can't register a new account
@@ -14,6 +15,11 @@ def register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
+
+            #on creer le userPermission en meme temps
+            userPermission = UserPermission(user=user, permissionInteger=0)
+            userPermission.save()
+
             login(request, user)
             return redirect('/dashboard')
         else:
@@ -43,7 +49,7 @@ def change_password(request):
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('/')
+            return redirect('/dashboard')
         else:
             messages.error(request, 'Please correct the error below.')
     else:
