@@ -9,5 +9,5 @@ urlpatterns = [
     path('remove', views.removeroom, name='remove_room'),
     
     path('room/<int:room_id>/messages/<int:last_id>', views.getMessages, name='messages'),
-    path('room/rooms', views.getRooms, name='messages')
+    path('room/rooms', views.getRooms, name='rooms')
 ]

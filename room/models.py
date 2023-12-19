@@ -1,5 +1,5 @@
 from django.db import models
-import user.models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Room(models.Model):
@@ -7,15 +7,11 @@ class Room(models.Model):
 
 class RoomPermission(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    user = models.ForeignKey(user.models.user, on_delete=models.CASCADE)
-    permission = models.IntegerField()
-
-class Permission(models.Model):
-    user = models.ForeignKey(user.models.user, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     permission = models.IntegerField()
 
 class Message(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    user = models.ForeignKey(user.models.user, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.CharField(max_length=2000)
     timestamp = models.DateTimeField(auto_now_add=True)

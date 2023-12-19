@@ -1,27 +1,27 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from django import http
 from .models import *
-from user.models import *
 
 # Create your views here.
+@login_required
 def home(request):
     ctx = {
         'rooms': Room.objects.all(),
-        'persons': user.objects.all(),
+        'persons': User.objects.all(),
     }
     
     return render(request, 'room/home.html', ctx )
 
+@login_required
 def room(request, room_id):
     usersess = ""
     if request.method == 'POST':
         # on recupere l'utilisateur qui a envoye le message
-        userData = user_session.objects.get(user_session=request.POST["tokenId"]).user
-        usersess =  request.POST["tokenId"]
         
         if request.POST["message"] != "":
             #on ajoute le message
-            mess = Message(room=Room.objects.get(id=room_id), user=userData, message=request.POST["message"])
+            mess = Message(room=Room.objects.get(id=room_id), user=request.user, message=request.POST["message"])
             mess.save()
     
     #get last message id if no message set to 0
@@ -36,15 +36,15 @@ def room(request, room_id):
     ctx = {
         'rooms': Room.objects.all(),
         'room': Room.objects.get(id=room_id),
-        'persons': user.objects.all(),
+        'persons': User.objects.all(),
         'messages': Message.objects.filter(room=room_id),
-        'tokenId': usersess,
         'lastMessageId': lastMessageId,
         'lastRoomId': lastRoomId
     }
     
     return render(request, 'room/view.html', ctx )
 
+@login_required
 def createroom(request):
     #todo test if user have right to create room
     if request.method == 'POST':
@@ -56,6 +56,7 @@ def createroom(request):
     
     return render(request, 'room/creation_create.html')
 
+@login_required
 def removeroom(request):
     #todo test if user have right to remove room
     if request.method == 'POST':
