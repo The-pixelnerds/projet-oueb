@@ -5,6 +5,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import get_user_model, login, update_session_auth_hash
 from django.contrib import messages
 from .models import UserData
+from random import randint
 
 def register(request):
     # Logged in user can't register a new account
@@ -17,7 +18,8 @@ def register(request):
             user = form.save()
 
             #on creer le UserData en meme temps
-            udata = UserData(user=user, permissionInteger=0, description="", colorRotation=0)
+            colorRotationMax = randint(0, 1000000)
+            udata = UserData(user=user, permissionInteger=0, description="", colorRotation=colorRotationMax%360)
             udata.save()
 
             login(request, user)
