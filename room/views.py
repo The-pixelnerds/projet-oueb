@@ -49,7 +49,7 @@ def createroom(request):
     #todo test if user have right to create room
     if request.method == 'POST':
         #on ajoute le salon
-        room = Room(name=request.POST["room-name"])
+        room = Room(name=request.POST["room-name"], description=request.POST["room-description"])
         room.save()
         
         return http.HttpResponseRedirect('/channels')
