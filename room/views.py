@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django import http
 from .models import *
+from user.models import UserData
 
 # Create your views here.
 @login_required
@@ -36,7 +37,7 @@ def room(request, room_id):
     ctx = {
         'rooms': Room.objects.all(),
         'room': Room.objects.get(id=room_id),
-        'persons': User.objects.all(),
+        'persons': UserData.objects.all(),
         'messages': Message.objects.filter(room=room_id),
         'lastMessageId': lastMessageId,
         'lastRoomId': lastRoomId
