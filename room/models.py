@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Room(models.Model):
     name = models.CharField(max_length=30)
+    description = models.CharField(max_length=200)
 
 class RoomPermission(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)

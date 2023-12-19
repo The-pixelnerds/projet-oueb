@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from .models import UserPermission
 
 class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(max_length=50)

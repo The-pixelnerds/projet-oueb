@@ -4,7 +4,7 @@ from .forms import UserRegistrationForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import get_user_model, login, update_session_auth_hash
 from django.contrib import messages
-from .models import UserPermission
+from .models import UserData
 
 def register(request):
     # Logged in user can't register a new account
@@ -16,9 +16,9 @@ def register(request):
         if form.is_valid():
             user = form.save()
 
-            #on creer le userPermission en meme temps
-            userPermission = UserPermission(user=user, permissionInteger=0)
-            userPermission.save()
+            #on creer le UserData en meme temps
+            udata = UserData(user=user, permissionInteger=0, description="", colorRotation=0)
+            udata.save()
 
             login(request, user)
             return redirect('/dashboard')
@@ -38,7 +38,7 @@ def register(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'user/dashboard.html', {'section': 'dashboard'})
+    return render(request, 'user/dashboard.html', {'section': 'dashboard','userData':UserData.objects.get(user=request.user)})
 
 
 @login_required

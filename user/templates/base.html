@@ -9,11 +9,13 @@
 </head>
 <body>
     <div id="header">
-        <span class="logo">Django Authentication</span>
         {% if request.user.is_authenticated %}
         <ul>
             <li {% if section == "dashboard" %} class="selected" {% endif %}>
                 <a href="{% url 'dashboard' %}">My dashboard</a>
+            </li>
+            <li>
+                <a href="{% url 'room:home' %}">Rooms</a>
             </li>
         </ul>
         {% endif %}
