@@ -1,0 +1,56 @@
+{% extends "room/template.html" %}
+{% load static %}
+
+{% block script %}
+    <script>
+        let room_id = {{ room.id }};
+        let lastMessageId = {{ lastMessageId }};
+    </script>
+    <script src="{% static 'room/js/messages.js' %}"></script>
+    <script src="{% static 'room/js/rooms.js' %}"></script>
+{% endblock %}
+
+{% block room_list %}
+    <div id="rooms">
+    {% for current_room in rooms %}
+        {% if current_room.id == room.id %}
+            <a href="{% url 'room:view' current_room.id %}" id="selected" ><b>{{ current_room.name }}</b></a>
+        {% else %}
+            <a href="{% url 'room:view' current_room.id %}">{{ current_room.name }}</a>
+        {% endif %}
+    {% endfor %}
+    </div>
+    <a href="{% url 'room:create_room' %}" id="newRoom">create new room</a>
+    <a href="{% url 'room:remove_room' %}" id="removeroom">remove room</a>
+{% endblock %}
+
+{% block content %}
+    {% for message in messages %}
+        <div class="message">
+            <div class="message__header">
+                <div class="message__author">{{ message.user.username }}</div>
+                <div class="message__date">{{ message.timestamp }}</div>
+            </div>
+            <div class="message__text">{{ message.message }}</div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block form %}
+    {% comment %} partie qui s'occupe de l'envoie de message {% endcomment %}
+    <form action="{% url 'room:view' room.id %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="message" id="message" placeholder="Votre message" autocomplete="off" autofocus>
+        <input type="text" name="tokenId" id="tokenId" value="{{ tokenId }}">
+        <input type="submit" value="Envoyer">
+    </form>
+{% endblock %}
+
+{% block persons %}
+    {% for person in persons %}
+        <div class="person">
+            <p>{{ person.username }}</p>
+            <p>ceci est une potentiel ? description</p>
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,10 @@
+.message{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 10px #ccc;
+    position: relative;
+    overflow: hidden;
+}

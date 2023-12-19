@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Projet oueb²</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    {% block style %}
+        <link rel="stylesheet" href="{% static 'room/style.css' %}" />
+    {% endblock %}
+
+    {% block script %}
+    {% endblock %}
+</head>
+<body>
+    <aside>
+        {% block room_list %}
+        {% endblock %}
+    </aside>
+    
+    <article id="">
+        <div id="messages">
+            {% block content %}
+            {% endblock %}
+        </div>
+        {% block form %}
+        {% endblock %}
+    </article>
+
+    <div id="persons">
+        {% block persons %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>

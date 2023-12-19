@@ -1,0 +1,32 @@
+{% extends "room/template.html" %}
+{% load static %}
+
+{% block script %}
+    <script>
+        let room_id = -1;
+    </script>
+    <script src="{% static 'room/js/rooms.js' %}"></script>
+{% endblock %}
+
+{% block room_list %}
+    <div id="rooms">
+        {% for current_room in rooms %}
+            <a href="{% url 'room:view' current_room.id %}">{{ current_room.name }}</a>
+        {% endfor %}
+    </div>
+    <a href="{% url 'room:create_room' %}" id="newRoom">create new room</a>
+    <a href="{% url 'room:remove_room' %}" id="removeroom">remove room</a>
+{% endblock %}
+
+{% block content %}
+    <h1>please select a room in left section</h1>
+{% endblock %}
+
+{% block persons %}
+    {% for person in persons %}
+        <div class="person">
+            <p>{{ person.username }}</p>
+            <p>ceci est une potentiel ? description</p>
+        </div>
+    {% endfor %}
+{% endblock %}
