@@ -39,6 +39,7 @@ def room(request, room_id):
         'rooms': Room.objects.all(),
         'room': Room.objects.get(id=room_id),
         'persons': UserData.objects.all(),
+        'currentuserid': request.user.id,
         'messages': Message.objects.filter(room=room_id),
         'lastMessageId': lastMessageId,
         'lastRoomId': lastRoomId,

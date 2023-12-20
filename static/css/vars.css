@@ -1,0 +1,13 @@
+:root{
+    --background-color: #1a1a1a;
+    --text-color: #d7d7d7; 
+    --background-shadow: #464646;
+    --aside-color: #3d3d3d; 
+    --article-color: var(--aside-color); 
+    --link-background: #47a87e; 
+    --link-color: #47a87e;
+    --link-hover: #2d7657; 
+    --article-card: var(--link-background); 
+    --article-background: #0A0A0A55;
+    --hr-color: #CCCCCC; 
+}
