@@ -25,8 +25,9 @@
 {% block persons %}
     {% for person_data in persons_data %}
         <div class="person">
-            <p>{{ person_data.user.username }}</p>
-            <p>{{ person_data.description }}</p>
+            <p>{{ person.user.username }}</p>
+            <p>{{ person.description }}</p>
+            <img src="{% static 'room/images/profilepic.png' %}" alt="profil" style="filter:hue-rotate( {{ person.colorRotation }}deg);">
         </div>
     {% endfor %}
 {% endblock %}

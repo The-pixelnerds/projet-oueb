@@ -4,14 +4,14 @@ from django import http
 
 from user.models import UserData
 from .models import *
+from user.models import UserData
 
 # Create your views here.
 @login_required
 def home(request):
-    persons_data = UserData.objects.filter(user__in=User.objects.all())
     ctx = {
         'rooms': Room.objects.all(),
-        'persons_data': persons_data,
+        'persons': UserData.objects.all()
     }
     
     return render(request, 'room/home.html', ctx )
@@ -34,12 +34,11 @@ def room(request, room_id):
     
     lastRoomId = 0
     if Room.objects.exists():
-        lastRoomId = Room.objects.order_by('-id')[0].id
-        persons_data = UserData.objects.filter(user__in=User.objects.all())    
+        lastRoomId = Room.objects.order_by('-id')[0].id   
         ctx = {
         'rooms': Room.objects.all(),
         'room': Room.objects.get(id=room_id),
-        'persons_data': persons_data,
+        'persons': UserData.objects.all(),
         'messages': Message.objects.filter(room=room_id),
         'lastMessageId': lastMessageId,
         'lastRoomId': lastRoomId,
@@ -55,7 +54,7 @@ def createroom(request):
     #todo test if user have right to create room
     if request.method == 'POST':
         #on ajoute le salon
-        room = Room(name=request.POST["room-name"])
+        room = Room(name=request.POST["room-name"], description=request.POST["room-description"])
         room.save()
         
         return http.HttpResponseRedirect('/channels')
