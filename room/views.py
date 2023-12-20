@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django import http
+from tools.Perms.Perms import *
 
 from user.models import UserData
-from .models import *
-from user.models import UserData
+from .models import Room, Message, RoomPermission
 
 # Create your views here.
 @login_required
@@ -18,14 +18,23 @@ def home(request):
 
 @login_required
 def room(request, room_id):
+    userData = UserData.objects.get(user=request.user)
+    permInRoom = RoomPermission.objects.filter(room=room_id, user=request.user)
+    
+    if (Perms.test(userData.permissionInteger,USER_ADMIN) == False and Perms.test(userData.permissionInteger, ROOM_READ) == False):
+        if ((not permInRoom.exists()) or ((Perms.test(permInRoom[0].permission, ROOM_ADMIN) == False and Perms.test(permInRoom[0].permission, ROOM_READ) == False))):
+            print("test")
+            return redirect('/channels')
+
     usersess = ""
     if request.method == 'POST':
-        # on recupere l'utilisateur qui a envoye le message
-        
-        if request.POST["message"] != "":
-            #on ajoute le message
-            mess = Message(room=Room.objects.get(id=room_id), user=request.user, message=request.POST["message"])
-            mess.save()
+        if Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger, USER_MESSAGE_WRITE) or (permInRoom.exists() and Perms.test(permInRoom[0].permission, ROOM_MESSAGE_WRITE)):
+            # on recupere l'utilisateur qui a envoye le message
+            
+            if request.POST["message"] != "":
+                #on ajoute le message
+                mess = Message(room=Room.objects.get(id=room_id), user=request.user, message=request.POST["message"])
+                mess.save()
     
     #get last message id if no message set to 0
     lastMessageId = 0
@@ -51,11 +60,19 @@ def room(request, room_id):
 
 @login_required
 def createroom(request):
-    #todo test if user have right to create room
+    #si on a pas les droits
+    if not Perms.test(UserData.objects.get(user=request.user).permissionInteger,USER_ADMIN) or Perms.test(UserData.objects.get(user=request.user).permissionInteger, USER_ROOM_CREATE):
+        return redirect('/channels')
+        
     if request.method == 'POST':
         #on ajoute le salon
         room = Room(name=request.POST["room-name"], description=request.POST["room-description"])
         room.save()
+        
+        #on ajoute les permissions du salon a tout le monde en se basant sur request.POST["room-permission"]
+        for user in UserData.objects.all():
+            perm = RoomPermission(room=room, user=user.user, permission=request.POST["room-permission"])
+            perm.save()
         
         return http.HttpResponseRedirect('/channels')
     
@@ -63,8 +80,18 @@ def createroom(request):
 
 @login_required
 def removeroom(request):
+    if not Perms.test(UserData.objects.get(user=request.user).permissionInteger,USER_ADMIN) or Perms.test(UserData.objects.get(user=request.user).permissionInteger, USER_ROOM_DELETE):
+        return redirect('/channels')
     #todo test if user have right to remove room
     if request.method == 'POST':
+        #on regarde si on a le droit de supprimer le salon
+        if not Perms.test(UserData.objects.get(user=request.user).permissionInteger,USER_ADMIN) or Perms.test(RoomPermission.objects.get(room=request.POST["room-name"], user=request.user).permission, ROOM_ADMIN):
+            return redirect('/channels/remove')
+
+        #on supprime les permissions du salon
+        perms = RoomPermission.objects.filter(room=request.POST["room-name"])
+        perms.delete()
+        
         #on supprime les messages du salon
         messages = Message.objects.filter(room=request.POST["room-name"])
         messages.delete()
