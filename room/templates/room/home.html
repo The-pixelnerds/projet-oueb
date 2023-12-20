@@ -23,7 +23,7 @@
 {% endblock %}
 
 {% block persons %}
-    {% for person_data in persons_data %}
+    {% for person in persons %}
         <div class="person">
             <p>{{ person.user.username }}</p>
             <p>{{ person.description }}</p>
