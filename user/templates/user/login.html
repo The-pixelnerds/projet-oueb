@@ -12,7 +12,7 @@
     </p>
     {% endif %}
     <div class="login-form">
-        <form action="{% url 'login' %}" method="post">
+        <form action="{% url 'user:login' %}" method="post">
             {{form.as_p}}
             {% csrf_token %}
             <input type="hidden" name="text" value="{{ next }}">
@@ -21,7 +21,7 @@
             </p>
         </form>
         <p>
-            <a href="{% url 'register' %}">Don't have an account?</a>
+            <a href="{% url 'user:register' %}">Don't have an account?</a>
         </p>
         <p>
             <a href="#">Forgotten Your Password ?</a>

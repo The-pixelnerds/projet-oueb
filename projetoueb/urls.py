@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from user import views
+from .views import custom_404
+
+handler404 = "projetoueb.views.custom_404"
 
 urlpatterns = [
     path('', include('user.urls')),

@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django import http
+
+from user.models import UserData
 from .models import *
 from user.models import UserData
 
@@ -32,16 +34,18 @@ def room(request, room_id):
     
     lastRoomId = 0
     if Room.objects.exists():
-        lastRoomId = Room.objects.order_by('-id')[0].id
-        
-    ctx = {
+        lastRoomId = Room.objects.order_by('-id')[0].id   
+        ctx = {
         'rooms': Room.objects.all(),
         'room': Room.objects.get(id=room_id),
         'persons': UserData.objects.all(),
         'messages': Message.objects.filter(room=room_id),
         'lastMessageId': lastMessageId,
-        'lastRoomId': lastRoomId
+        'lastRoomId': lastRoomId,
+        
     }
+    
+    
     
     return render(request, 'room/view.html', ctx )
 

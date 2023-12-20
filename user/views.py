@@ -5,7 +5,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import get_user_model, login, update_session_auth_hash
 from django.contrib import messages
 from .models import UserData
-from random import randint
+from .forms import DescriptionForm
+import random
 
 def register(request):
     # Logged in user can't register a new account
@@ -16,9 +17,10 @@ def register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            colorRotation = random.randint(1, 360)
 
             #on creer le UserData en meme temps
-            udata = UserData(user=user, permissionInteger=0, description="", colorRotation=0)
+            udata = UserData(user=user, permissionInteger=0, description="", colorRotation=colorRotation)
             udata.save()
 
             login(request, user)
@@ -39,7 +41,21 @@ def register(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'user/dashboard.html', {'section': 'dashboard','userData':UserData.objects.get(user=request.user)})
+    data = UserData.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = DescriptionForm(request.POST)
+        if form.is_valid():
+            
+            data.description = form.cleaned_data['description']
+            
+            data.save()
+            return redirect('/dashboard')
+        
+    else:
+        form = DescriptionForm()
+
+    return render(request, 'user/dashboard.html', {'form': form, 'section': 'dashboard','userData':UserData.objects.get(user=request.user)})
 
 
 @login_required
