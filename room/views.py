@@ -9,7 +9,7 @@ from user.models import UserData
 def home(request):
     ctx = {
         'rooms': Room.objects.all(),
-        'persons': User.objects.all(),
+        'persons': UserData.objects.all()
     }
     
     return render(request, 'room/home.html', ctx )
