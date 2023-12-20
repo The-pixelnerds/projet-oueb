@@ -18,8 +18,7 @@ def register(request):
             user = form.save()
 
             #on creer le UserData en meme temps
-            colorRotationMax = randint(0, 1000000)
-            udata = UserData(user=user, permissionInteger=0, description="", colorRotation=colorRotationMax%360)
+            udata = UserData(user=user, permissionInteger=0, description="", colorRotation=0)
             udata.save()
 
             login(request, user)
