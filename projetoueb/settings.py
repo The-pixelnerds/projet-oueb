@@ -27,8 +27,7 @@ SECRET_KEY = 'django-insecure-2vzj(n40^+rzzx*j#zf$vaknc2*ucivler+e3qd@tmwp3z!5p7
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "localhost",
-    "10.39.250.243"
+    
 ]
 
 
@@ -123,7 +122,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+
+#pour le deploiement
+#STATIC_ROOT = BASE_DIR / 'static'
+#python manage.py collectstatic
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -134,4 +138,4 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = '/dashboard'
 LOGIN_URL = 'login'
-LOGOUT_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = '/login'

@@ -23,10 +23,10 @@
 {% endblock %}
 
 {% block persons %}
-    {% for person in persons %}
+    {% for person_data in persons_data %}
         <div class="person">
-            <p>{{ person.username }}</p>
-            <p>ceci est une potentiel ? description</p>
+            <p>{{ person_data.user.username }}</p>
+            <p>{{ person_data.description }}</p>
         </div>
     {% endfor %}
 {% endblock %}
