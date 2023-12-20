@@ -26,7 +26,7 @@
     {% for person in persons %}
         <div class="person">
             <p>{{ person.user.username }}</p>
-            <p>{{ person.user.description }}</p>
+            <p>{{ person.description }}</p>
             <img src="{% static 'room/images/profilepic.png' %}" alt="profil" style="filter:hue-rotate( {{ person.colorRotation }}deg);">
         </div>
     {% endfor %}
