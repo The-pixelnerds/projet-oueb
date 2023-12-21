@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django import http
@@ -6,7 +7,10 @@ from user.models import UserData
 from .models import *
 from user.models import UserData
 
+import re
+
 # Create your views here.
+
 @login_required
 def home(request):
     ctx = {
@@ -24,7 +28,8 @@ def room(request, room_id):
         
         if request.POST["message"] != "":
             #on ajoute le message
-            mess = Message(room=Room.objects.get(id=room_id), user=request.user, message=request.POST["message"])
+            message_text = replace_smileys(request.POST["message"])
+            mess = Message(room=Room.objects.get(id=room_id), user=request.user, message=message_text)
             mess.save()
     
     #get last message id if no message set to 0
@@ -114,3 +119,25 @@ def getRooms(request):
         return http.JsonResponse(tab, safe=False)
     else:
         return http.HttpResponseForbidden()
+
+
+def replace_smileys(text):
+    smileys = {
+        ":-)": "🙂",
+        ":-(": "🙁",
+        ":D": "😀",
+        ":p": "😛",
+        ":P": "😛",
+        ":o": "😮",
+        ":O": "😮",
+        ":|": "😐",
+        ":/": "😕",
+        ";)": "😉",
+        ":3": "😺",
+        ":*": "😘",
+    }
+    for smiley, emoji in smileys.items():
+        text = re.sub(re.escape(smiley), emoji, text)
+
+    return text
+
