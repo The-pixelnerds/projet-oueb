@@ -14,7 +14,7 @@ def home(request):
     filteredRooms = []
     for room in rooms:
         roomPerms = RoomPermission.objects.filter(room=room.id, user=request.user)
-        if Perms.test(userData.permissionInteger,USER_ADMIN) or (roomPerms.exists() and Perms.test(roomPerms[0].permission, ROOM_READ)) :
+        if Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger,USER_ROOM_READ) or (roomPerms.exists() and Perms.test(roomPerms[0].permission, ROOM_READ)) :
             filteredRooms.append(room)
     
     ctx = {
@@ -41,7 +41,7 @@ def room(request, room_id):
     filteredRooms = []
     for room in rooms:
         roomPerms = RoomPermission.objects.filter(room=room.id, user=request.user)
-        if Perms.test(userData.permissionInteger,USER_ADMIN) or (roomPerms.exists() and Perms.test(roomPerms[0].permission, ROOM_READ)) :
+        if Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger,USER_ROOM_READ) or (roomPerms.exists() and Perms.test(roomPerms[0].permission, ROOM_READ)) :
             filteredRooms.append(room)
     
     if (Perms.test(userData.permissionInteger,USER_ADMIN) == False and Perms.test(userData.permissionInteger, ROOM_READ) == False):
@@ -90,20 +90,21 @@ def room(request, room_id):
 @login_required
 def createroom(request):
     #si on a pas les droits
-    if not Perms.test(UserData.objects.get(user=request.user).permissionInteger,USER_ADMIN) or Perms.test(UserData.objects.get(user=request.user).permissionInteger, USER_ROOM_CREATE):
+    if not (Perms.test(UserData.objects.get(user=request.user).permissionInteger,USER_ADMIN) or Perms.test(UserData.objects.get(user=request.user).permissionInteger, USER_ROOM_CREATE)):
         return redirect('/channels')
         
     if request.method == 'POST':
         #on ajoute le salon
         room = Room(name=request.POST["room-name"], description=request.POST["room-description"])
         
-        perms = request.POST.get("perms") if request.POST.get("perms") != None else []
+        
         #on creer le permision id du salon
         permId = 0
-        permId += ROOM_MESSAGE_WRITE if "perm_room-message-write" in perms else 0
-        permId += ROOM_READ if "perm_room-read" in perms else 0
-        permId += ROOM_DELETE if "perm_room-delete" in perms else 0
-        permId += ROOM_ADMIN if "perm_room-admin" in perms else 0
+        permId += ROOM_MESSAGE_WRITE if request.POST.get("perm_room-message-write") else 0
+        permId += ROOM_READ if request.POST.get("perm_room-read") else 0
+        permId += ROOM_DELETE if request.POST.get("perm_room-delete") else 0
+        permId += ROOM_ADMIN if request.POST.get("perm_room-admin") else 0
+        print(permId)
         
         print(permId)
         room.defaultPermission = permId
@@ -112,7 +113,7 @@ def createroom(request):
         #on ajoute les permissions du salon a tout le monde en se basant sur request.POST["room-permission"]
         for user in UserData.objects.all():
             tempP = permId
-            if request.user.id == user.user.id and not "perm_room-admin" in perms:
+            if request.user.id == user.user.id and not Perms.test(UserData.objects.get(user=request.user).permissionInteger,USER_ADMIN):
                 tempP += ROOM_ADMIN
             perm = RoomPermission(room=room, user=user.user, permission=tempP)
             perm.save()
@@ -123,12 +124,12 @@ def createroom(request):
 
 @login_required
 def removeroom(request):
-    if not Perms.test(UserData.objects.get(user=request.user).permissionInteger,USER_ADMIN) or Perms.test(UserData.objects.get(user=request.user).permissionInteger, USER_ROOM_DELETE):
+    if not (Perms.test(UserData.objects.get(user=request.user).permissionInteger,USER_ADMIN) or Perms.test(UserData.objects.get(user=request.user).permissionInteger, USER_ROOM_DELETE)):
         return redirect('/channels')
     #todo test if user have right to remove room
     if request.method == 'POST':
         #on regarde si on a le droit de supprimer le salon
-        if not Perms.test(UserData.objects.get(user=request.user).permissionInteger,USER_ADMIN) or Perms.test(RoomPermission.objects.get(room=request.POST["room-name"], user=request.user).permission, ROOM_ADMIN):
+        if not (Perms.test(UserData.objects.get(user=request.user).permissionInteger,USER_ADMIN) or Perms.test(RoomPermission.objects.get(room=request.POST["room-name"], user=request.user).permission, ROOM_ADMIN)):
             return redirect('/channels/remove')
 
         #on supprime les permissions du salon
@@ -178,7 +179,7 @@ def getRooms(request):
         filteredRooms = []
         for room in rooms:
             roomPerms = RoomPermission.objects.filter(room=room.id, user=request.user)
-            if Perms.test(userData.permissionInteger,USER_ADMIN) or (roomPerms.exists() and Perms.test(roomPerms[0].permission, ROOM_READ)) :
+            if Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger,USER_ROOM_READ) or (roomPerms.exists() and Perms.test(roomPerms[0].permission, ROOM_READ)) :
                 filteredRooms.append(room)
         
         #on les met dans un tableau
