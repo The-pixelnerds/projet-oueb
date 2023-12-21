@@ -9,10 +9,26 @@ from .models import Room, Message, RoomPermission
 # Create your views here.
 @login_required
 def home(request):
+    rooms = Room.objects.all()
+    userData = UserData.objects.get(user=request.user)
+    filteredRooms = []
+    for room in rooms:
+        roomPerms = RoomPermission.objects.filter(room=room.id, user=request.user)
+        if Perms.test(userData.permissionInteger,USER_ADMIN) or (roomPerms.exists() and Perms.test(roomPerms[0].permission, ROOM_READ)) :
+            filteredRooms.append(room)
+    
     ctx = {
-        'rooms': Room.objects.all(),
+        'rooms': filteredRooms,
         'persons': UserData.objects.all()
     }
+    
+    #on ajoute ce qu'il faut pour l'affichage
+    details = {
+        'cancreateRoom': Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger, USER_ROOM_CREATE),
+        'canremoveRoom': Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger, USER_ROOM_DELETE),
+    }
+    
+    ctx['details'] = details
     
     return render(request, 'room/home.html', ctx )
 
@@ -20,6 +36,13 @@ def home(request):
 def room(request, room_id):
     userData = UserData.objects.get(user=request.user)
     permInRoom = RoomPermission.objects.filter(room=room_id, user=request.user)
+    
+    rooms = Room.objects.all()
+    filteredRooms = []
+    for room in rooms:
+        roomPerms = RoomPermission.objects.filter(room=room.id, user=request.user)
+        if Perms.test(userData.permissionInteger,USER_ADMIN) or (roomPerms.exists() and Perms.test(roomPerms[0].permission, ROOM_READ)) :
+            filteredRooms.append(room)
     
     if (Perms.test(userData.permissionInteger,USER_ADMIN) == False and Perms.test(userData.permissionInteger, ROOM_READ) == False):
         if ((not permInRoom.exists()) or ((Perms.test(permInRoom[0].permission, ROOM_ADMIN) == False and Perms.test(permInRoom[0].permission, ROOM_READ) == False))):
@@ -41,20 +64,26 @@ def room(request, room_id):
     if Message.objects.filter(room=room_id).order_by('-id').exists():
         lastMessageId = Message.objects.filter(room=room_id).order_by('-id')[0].id
     
+    ctx = {}
     lastRoomId = 0
     if Room.objects.exists():
         lastRoomId = Room.objects.order_by('-id')[0].id   
         ctx = {
-        'rooms': Room.objects.all(),
-        'room': Room.objects.get(id=room_id),
-        'persons': UserData.objects.all(),
-        'messages': Message.objects.filter(room=room_id),
-        'lastMessageId': lastMessageId,
-        'lastRoomId': lastRoomId,
-        
+            'rooms': filteredRooms,
+            'room': Room.objects.get(id=room_id),
+            'persons': UserData.objects.all(),
+            'messages': Message.objects.filter(room=room_id),
+            'lastMessageId': lastMessageId,
+            'lastRoomId': lastRoomId,
+        }
+    
+    #on ajoute ce qu'il faut pour l'affichage
+    details = {
+        'cancreateRoom': Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger, USER_ROOM_CREATE),
+        'canremoveRoom': Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger, USER_ROOM_DELETE),
     }
     
-    
+    ctx['details'] = details
     
     return render(request, 'room/view.html', ctx )
 
@@ -67,13 +96,27 @@ def createroom(request):
     if request.method == 'POST':
         #on ajoute le salon
         room = Room(name=request.POST["room-name"], description=request.POST["room-description"])
-        room.save()
         
+        perms = request.POST.get("perms") if request.POST.get("perms") != None else []
+        #on creer le permision id du salon
+        permId = 0
+        permId += ROOM_MESSAGE_WRITE if "perm_room-message-write" in perms else 0
+        permId += ROOM_READ if "perm_room-read" in perms else 0
+        permId += ROOM_DELETE if "perm_room-delete" in perms else 0
+        permId += ROOM_ADMIN if "perm_room-admin" in perms else 0
+        
+        print(permId)
+        room.defaultPermission = permId
+        room.save()
+
         #on ajoute les permissions du salon a tout le monde en se basant sur request.POST["room-permission"]
         for user in UserData.objects.all():
-            perm = RoomPermission(room=room, user=user.user, permission=request.POST["room-permission"])
+            tempP = permId
+            if request.user.id == user.user.id and not "perm_room-admin" in perms:
+                tempP += ROOM_ADMIN
+            perm = RoomPermission(room=room, user=user.user, permission=tempP)
             perm.save()
-        
+            
         return http.HttpResponseRedirect('/channels')
     
     return render(request, 'room/creation_create.html')
@@ -112,6 +155,7 @@ def getMessages(request, room_id, last_id):
     if request.method == 'GET':
         #on recupere les derniers messages
         messages = Message.objects.filter(room=room_id, id__gt=last_id).order_by('id')
+
         #on les met dans un tableau
         tab = []
         for mess in messages:
@@ -130,9 +174,16 @@ def getRooms(request):
     if request.method == 'GET':
         #on recupere les derniers salons
         rooms = Room.objects.filter().order_by('id')
+        userData = UserData.objects.get(user=request.user)
+        filteredRooms = []
+        for room in rooms:
+            roomPerms = RoomPermission.objects.filter(room=room.id, user=request.user)
+            if Perms.test(userData.permissionInteger,USER_ADMIN) or (roomPerms.exists() and Perms.test(roomPerms[0].permission, ROOM_READ)) :
+                filteredRooms.append(room)
+        
         #on les met dans un tableau
         tab = []
-        for room in rooms:
+        for room in filteredRooms:
             tab.append({
                 'id': room.id,
                 'name': room.name

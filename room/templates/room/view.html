@@ -20,8 +20,12 @@
         {% endif %}
     {% endfor %}
     </div>
-    <a href="{% url 'room:create_room' %}" id="newRoom">create new room</a>
-    <a href="{% url 'room:remove_room' %}" id="removeroom">remove room</a>
+    {% if details.cancreateRoom %}
+        <a href="{% url 'room:create_room' %}" id="newRoom">create new room</a>
+    {% endif %}
+    {% if details.canremoveRoom %}
+        <a href="{% url 'room:remove_room' %}" id="removeroom">remove room</a>
+    {% endif %}
     <br>
     {{ room.description }}
 {% endblock %}
@@ -52,7 +56,7 @@
         <div class="person">
             <p>{{ person.user.username }}</p>
             <p>{{ person.description }}</p>
-            <img src="{% static 'room/images/profilepic.png' %}" alt="profil" style="filter:hue-rotate( {{ person.colorRotation }}deg);">
+            <img src="{% static 'room/images/profilepic.png' %}" alt="profil" style="filter:hue-rotate({{ person.colorRotation }}deg);">
         </div>
     {% endfor %}
 {% endblock %}
