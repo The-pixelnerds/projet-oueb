@@ -1,8 +1,13 @@
-
-
-body{
-    background-color: var(--background-color);
+aside, #article, #persons-wrapper{
     display: inline-block;
+    vertical-align: top;
+    margin:0;
+}
+
+body, html{
+    padding:0;
+    margin:0;
+    background-color: var(--background-color);
     width: 100%;
 }
 
@@ -14,14 +19,31 @@ body{
     color:var(--text-color); /* doesn't work*/
 }
 
+aside{
+    width: 200px;
+    height: calc(100vh - 50px);
+    overflow-y: scroll;
+}
+
 #article{
-    width:80%
+    width:calc(100% - 500px);
+}
+
+#persons-wrapper{
+    width:280px;
+    height:calc(100vh - 50px);
+    overflow-y: scroll;
 }
 
 #messages{
     background-color: var(--background-shadow);
     border-radius: 5px;
     padding : 10px;
+}
+
+#messages-wrapper{
+    height: calc(100vh - 90px);
+    overflow-y: scroll;
 }
 
 .message{
@@ -47,8 +69,10 @@ body{
 #write{
     background-color: var(--aside-color);
     border-radius: 5px;
+    height:40px;
 }
 
-#persons{
-    display: inline-block;
+footer{
+    height: 50px;
+    background-color: red;
 }

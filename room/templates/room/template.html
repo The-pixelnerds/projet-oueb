@@ -16,14 +16,18 @@
 </head>
 <body>
     <aside>
-        {% block room_list %}
-        {% endblock %}
+        <div id="users">
+            {% block room_list %}
+            {% endblock %}
+        </div>
     </aside>
     
     <article id="article">
-        <div id="messages">
-            {% block content %}
-            {% endblock %}
+        <div id="messages-wrapper">
+            <div id="messages">
+                {% block content %}
+                {% endblock %}
+            </div>
         </div>
         <div id="write">
         {% block form %}
@@ -31,11 +35,13 @@
         </div>
     </article>
 
-    <div id="persons">
-        {% block persons %}
-        {% endblock %}
+    <div id="persons-wrapper">
+        <div id="persons">
+            <a href="{% url 'user:dashboard' %}">My dashboard</a>
+            {% block persons %}
+            {% endblock %}
+        </div>
     </div>
-    <a href="{% url 'user:dashboard' %}">My dashboard</a>
     <footer>bla bla bla</footer>
 </body>
 </html>
