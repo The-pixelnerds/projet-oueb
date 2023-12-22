@@ -10,4 +10,5 @@
     --article-card: var(--link-background); 
     --article-background: #0A0A0A55;
     --hr-color: #CCCCCC; 
+    --message-shadow : #222423;
 }

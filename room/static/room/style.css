@@ -1,10 +1,54 @@
+
+
+body{
+    background-color: var(--background-color);
+    display: inline-block;
+    width: 100%;
+}
+
+#rooms{
+    width: 15%;
+}
+
+#desciption{
+    color:var(--text-color); /* doesn't work*/
+}
+
+#article{
+    width:80%
+}
+
+#messages{
+    background-color: var(--background-shadow);
+    border-radius: 5px;
+    padding : 10px;
+}
+
 .message{
-    border: 1px solid #ccc;
+    width:60%;
+    border: 1px solid var(--link-color);
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: #fff;
-    box-shadow: 0 0 10px #ccc;
+    box-shadow: 0 0 10px var(--message-shadow);
     position: relative;
     overflow: hidden;
+}
+
+.yours{
+    background-color: var(--link-color);
+    margin-left:38%;
+}
+
+.notyours{
+    background-color: var(--link-hover);
+}
+
+#write{
+    background-color: var(--aside-color);
+    border-radius: 5px;
+}
+
+#persons{
+    display: inline-block;
 }

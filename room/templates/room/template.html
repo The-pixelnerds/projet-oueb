@@ -20,13 +20,15 @@
         {% endblock %}
     </aside>
     
-    <article id="">
+    <article id="article">
         <div id="messages">
             {% block content %}
             {% endblock %}
         </div>
+        <div id="write">
         {% block form %}
         {% endblock %}
+        </div>
     </article>
 
     <div id="persons">
@@ -34,5 +36,6 @@
         {% endblock %}
     </div>
     <a href="{% url 'user:dashboard' %}">My dashboard</a>
+    <footer>bla bla bla</footer>
 </body>
 </html>
