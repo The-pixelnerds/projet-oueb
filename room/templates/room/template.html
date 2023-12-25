@@ -16,9 +16,12 @@
 </head>
 <body>
     <aside>
-        <div id="users">
+        <div id="left">
             {% block room_list %}
             {% endblock %}
+            <div id="bloc_dashboard">
+                <a href="{% url 'user:dashboard' %}">My dashboard</a>
+            </div>
         </div>
     </aside>
     
@@ -35,11 +38,16 @@
         </div>
     </article>
 
-    <div id="persons-wrapper">
-        <div id="persons">
-            <a href="{% url 'user:dashboard' %}">My dashboard</a>
-            {% block persons %}
-            {% endblock %}
+    <div id="right">
+        <div id="presentation">
+            <h2>{{ current_room.name }}</h2>
+            <p id="description">{{ room.description }}</p>
+        </div>
+        <div id="persons-wrapper">
+            <div id="persons">
+                {% block persons %}
+                {% endblock %}
+            </div>
         </div>
     </div>
     <footer>bla bla bla</footer>

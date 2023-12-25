@@ -37,6 +37,7 @@ def room(request, room_id):
         lastRoomId = Room.objects.order_by('-id')[0].id   
         ctx = {
         'rooms': Room.objects.all(),
+        'current_room': Room.objects.get(id=room_id),
         'room': Room.objects.get(id=room_id),
         'persons': UserData.objects.all(),
         'currentuserid': request.user.id,

@@ -1,9 +1,9 @@
 function addRoom(room) {
     let str = "";
     if(room.id == room_id){
-        str = "<a href=\"/channels/room/"+room.id+"\" id=\"selected\"><b>"+ room.name+"</b></a>";
+        str = "<a href=\"/channels/room/"+room.id+"\" id=\"selected\"><b>"+ room.name+"</b></a><br>";
     }else{
-        str = "<a href=\"/channels/room/"+room.id+"\">"+ room.name+"</a>";
+        str = "<a href=\"/channels/room/"+room.id+"\">"+ room.name+"</a><br>";
     }
     str += "\n"
     

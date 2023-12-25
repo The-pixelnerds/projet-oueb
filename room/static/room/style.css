@@ -1,7 +1,17 @@
+
+
 aside, #article, #persons-wrapper{
     display: inline-block;
     vertical-align: top;
     margin:0;
+}
+
+a{
+    color:var(--link-color)
+}
+
+a:hover{
+    color:var(--link-hover)
 }
 
 body, html{
@@ -9,14 +19,12 @@ body, html{
     margin:0;
     background-color: var(--background-color);
     width: 100%;
+    color : var(--text-color);
+    overflow-y: hidden;
 }
 
 #rooms{
     width: 15%;
-}
-
-#desciption{
-    color:var(--text-color); /* doesn't work*/
 }
 
 aside{
@@ -29,10 +37,42 @@ aside{
     width:calc(100% - 500px);
 }
 
-#persons-wrapper{
-    width:280px;
-    height:calc(100vh - 50px);
+#right{
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 10px;
+    width:250px;
     overflow-y: scroll;
+    height:calc(100vh - 50px);
+}
+
+#description{
+    border-bottom: 2px solid var(--text-color);
+}
+
+#left{
+    padding: 10px;
+}
+
+#rooms{
+    border-bottom: 2px solid var(--text-color);
+    width: 150px;
+}
+.usertext{
+    display : inline-block;
+}
+
+.usertext>img{
+    position: absolute;
+    right:0;
+}
+
+#bloc_dashboard{
+    position:absolute;
+    bottom: 50px;
+    padding : 10px;
+    text-align: center;
+    width: 150px;
 }
 
 #messages{
@@ -44,6 +84,7 @@ aside{
 #messages-wrapper{
     height: calc(100vh - 90px);
     overflow-y: scroll;
+    color: var(--message-shadow)
 }
 
 .message{
@@ -74,5 +115,5 @@ aside{
 
 footer{
     height: 50px;
-    background-color: red;
+    background-color: var(--background-color);
 }

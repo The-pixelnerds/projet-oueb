@@ -15,15 +15,16 @@
     {% for current_room in rooms %}
         {% if current_room.id == room.id %}
             <a href="{% url 'room:view' current_room.id %}" id="selected" ><b>{{ current_room.name }}</b></a>
+            <br>
         {% else %}
             <a href="{% url 'room:view' current_room.id %}">{{ current_room.name }}</a>
+            <br>
         {% endif %}
     {% endfor %}
     </div>
     <a href="{% url 'room:create_room' %}" id="newRoom">create new room</a>
     <a href="{% url 'room:remove_room' %}" id="removeroom">remove room</a>
     <br>
-    <p id="description">{{ room.description }}</p>
 {% endblock %}
 
 {% block content %}
@@ -58,9 +59,11 @@
         {% else %}
             <div class="person">
         {% endif %}
-            <p>{{ person.user.username }}</p>
-            <p>{{ person.description }}</p>
-            <img src="{% static 'room/images/profilepic.png' %}" alt="profil" style="filter:hue-rotate( {{ person.colorRotation }}deg);">
+            <div class="usertext">
+                <p>{{ person.user.username }}</p>
+                <p>{{ person.description }}</p>
+            </div>  
+            <img src="{% static 'room/images/profilepic.png' %}" alt="profil" style="filter:hue-rotate( {{ person.colorRotation }}deg);">  
         </div>
     {% endfor %}
 {% endblock %}
