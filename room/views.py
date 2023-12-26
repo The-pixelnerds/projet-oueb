@@ -4,7 +4,7 @@ from django import http
 from tools.Perms.Perms import *
 
 from user.models import UserData
-from .models import Room, Message, RoomPermission
+from .models import Room, Message, RoomPermission, MessageDeletion
 
 # Create your views here.
 @login_required
@@ -64,6 +64,10 @@ def room(request, room_id):
     if Message.objects.filter(room=room_id).order_by('-id').exists():
         lastMessageId = Message.objects.filter(room=room_id).order_by('-id')[0].id
     
+    #just before sending the message, we remove every message that have been deleted
+    if MessageDeletion.objects.filter(user=request.user).exists():
+        MessageDeletion.objects.filter(user=request.user).delete()
+
     ctx = {}
     lastRoomId = 0
     if Room.objects.exists():
@@ -81,6 +85,8 @@ def room(request, room_id):
     details = {
         'cancreateRoom': Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger, USER_ROOM_CREATE),
         'canremoveRoom': Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger, USER_ROOM_DELETE),
+        'canremoveMessage': Perms.test(userData.permissionInteger,USER_ADMIN) or (permInRoom.exists() and Perms.test(permInRoom[0].permission, ROOM_MESSAGE_DELETE)),
+        'user': request.user,
     }
     
     ctx['details'] = details
@@ -104,6 +110,7 @@ def createroom(request):
         permId += ROOM_READ if request.POST.get("perm_room-read") else 0
         permId += ROOM_DELETE if request.POST.get("perm_room-delete") else 0
         permId += ROOM_ADMIN if request.POST.get("perm_room-admin") else 0
+        permId += ROOM_MESSAGE_DELETE if request.POST.get("perm_room-perm_room-deleteMessage") else 0
         print(permId)
         
         print(permId)
@@ -152,6 +159,7 @@ def removeroom(request):
     return render(request, 'room/creation_remove.html', ctx)
 
 #fonction pour recup les 20 derniers messages et les renvoyer en json
+@login_required
 def getMessages(request, room_id, last_id):
     if request.method == 'GET':
         #on recupere les derniers messages
@@ -164,10 +172,18 @@ def getMessages(request, room_id, last_id):
                 'id': mess.id,
                 'user': mess.user.username,
                 'message': mess.message,
-                'date': mess.timestamp.strftime("%d/%m/%Y %H:%M:%S")
+                'date': mess.timestamp.strftime("%d/%m/%Y %H:%M:%S"),
+                'candelete': Perms.test(UserData.objects.get(user=request.user).permissionInteger,USER_ADMIN) or (RoomPermission.objects.filter(room=room_id, user=request.user).exists() and (Perms.test(RoomPermission.objects.get(room=room_id, user=request.user).permission, ROOM_MESSAGE_DELETE) or Perms.test(RoomPermission.objects.get(room=room_id, user=request.user).permission, ROOM_ADMIN))),
             })
+        
+        #on met les messages a suprimer
+        rem = []
+        for mess in MessageDeletion.objects.filter(user=request.user):
+            rem.append(mess.messageId)
+        MessageDeletion.objects.filter(user=request.user).delete()
+
         #on renvoi le tableau en json
-        return http.JsonResponse(tab, safe=False)
+        return http.JsonResponse({'messages':tab,'deletes':rem}, safe=False)
     else:
         return http.HttpResponseForbidden()
 
@@ -193,3 +209,25 @@ def getRooms(request):
         return http.JsonResponse(tab, safe=False)
     else:
         return http.HttpResponseForbidden()
+
+@login_required  
+def removeMessage(request,messageId):
+    if request.method == 'GET':
+        #on verifie qu'on a le droit de supprimer le message (admin ou auteur ou perm de suppr)
+        message = Message.objects.get(id=messageId)
+        userData = UserData.objects.get(user=request.user)
+        permInRoom = RoomPermission.objects.filter(room=message.room.id, user=request.user)
+        if not (Perms.test(userData.permissionInteger,USER_ADMIN) or message.user.id == request.user.id or (permInRoom.exists() and (Perms.test(permInRoom[0].permission, ROOM_MESSAGE_DELETE) or Perms.test(permInRoom[0].permission, ROOM_ADMIN)))):
+            return http.HttpResponseForbidden()
+        
+        #on a le droit de supprimer le message
+        #on ajoute un message de suppression a tout le monde
+        for user in UserData.objects.all():
+            mess = MessageDeletion(messageId=messageId, user=user.user)
+            mess.save()
+        
+        #on supprime le message
+        message.delete()
+
+        #on dit que c'est bon
+        return http.JsonResponse({'status': 'ok'})

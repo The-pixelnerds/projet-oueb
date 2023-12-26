@@ -26,3 +26,10 @@ class Message(models.Model):
     
     def __str__(self):
         return self.user.username + " in " + self.room.name + " : " + self.message
+    
+class MessageDeletion(models.Model):
+    messageId = models.IntegerField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username + "has to remove deleted message " + str(self.messageId)

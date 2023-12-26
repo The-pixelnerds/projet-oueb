@@ -32,12 +32,15 @@
 
 {% block content %}
     {% for message in messages %}
-        <div class="message">
+        <div id="message-{{ message.id }}" class="message">
             <div class="message__header">
                 <div class="message__author">{{ message.user.username }}</div>
                 <div class="message__date">{{ message.timestamp }}</div>
             </div>
             <div class="message__text">{{ message.message }}</div>
+            {% if message.user.id == details.user.id or details.canremoveMessage %}
+                <button class="message__remove" onclick="sendDelete({{ message.id }})">X</button>
+            {% endif %}
         </div>
     {% endfor %}
 {% endblock %}
