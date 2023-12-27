@@ -19,13 +19,14 @@ def home(request):
     
     ctx = {
         'rooms': filteredRooms,
-        'persons': UserData.objects.all()
+        'persons': UserData.objects.all(),
     }
     
     #on ajoute ce qu'il faut pour l'affichage
     details = {
         'cancreateRoom': Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger, USER_ROOM_CREATE),
         'canremoveRoom': Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger, USER_ROOM_DELETE),
+        'isadmin': Perms.test(userData.permissionInteger,USER_ADMIN),
     }
     
     ctx['details'] = details
@@ -87,7 +88,8 @@ def room(request, room_id):
         'canremoveRoom': Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger, USER_ROOM_DELETE),
         'canremoveMessage': Perms.test(userData.permissionInteger,USER_ADMIN) or (permInRoom.exists() and Perms.test(permInRoom[0].permission, ROOM_MESSAGE_DELETE)),
         'user': request.user,
-        'isadmin': Perms.test(userData.permissionInteger,USER_ADMIN) or (permInRoom.exists() and Perms.test(permInRoom[0].permission, ROOM_ADMIN)),
+        'isadminroom': Perms.test(userData.permissionInteger,USER_ADMIN) or (permInRoom.exists() and Perms.test(permInRoom[0].permission, ROOM_ADMIN)),
+        'isadmin': Perms.test(userData.permissionInteger,USER_ADMIN),
     }
     
     ctx['details'] = details
@@ -197,8 +199,45 @@ def editroomuserperm(request, room_id, user_id):
     }
     return render(request, 'room/room_user_right.html', ctx)
 
+@login_required
+def edituserperm(request, user_id):
+    #on verifie qu'on a le droit de modifier les perms de l'utilisateur
+    if not (Perms.test(UserData.objects.get(user=request.user).permissionInteger,USER_ADMIN)):
+        return redirect('/channels')
     
-    
+    if request.method == 'POST':
+        #on recupere les perms de l'utilisateur
+        perm = UserData.objects.get(user=user_id)
+        
+        #on modifie les perms de l'utilisateur
+        perm.permissionInteger = 0
+        perm.permissionInteger += USER_MESSAGE_WRITE if request.POST.get("perm_user-message-write") else 0
+        perm.permissionInteger += USER_ROOM_READ if request.POST.get("perm_user-read") else 0
+        perm.permissionInteger += USER_ROOM_CREATE if request.POST.get("perm_user-create") else 0
+        perm.permissionInteger += USER_ROOM_DELETE if request.POST.get("perm_user-delete") else 0
+        perm.permissionInteger += USER_ADMIN if request.POST.get("perm_user-admin") else 0
+        perm.save()
+        
+        return http.HttpResponseRedirect('/channels')
+
+    #on recupere les perms de l'utilisateur
+    perm = UserData.objects.get(user=user_id)
+
+    perm_user_message_write = Perms.test(perm.permissionInteger, USER_MESSAGE_WRITE)
+    perm_user_room_read = Perms.test(perm.permissionInteger, USER_ROOM_READ)
+    perm_user_room_create = Perms.test(perm.permissionInteger, USER_ROOM_CREATE)
+    perm_user_room_delete = Perms.test(perm.permissionInteger, USER_ROOM_DELETE)
+    perm_user_admin = Perms.test(perm.permissionInteger, USER_ADMIN)
+
+    ctx = {
+        'user': UserData.objects.get(user=user_id),
+        'right_message_write': perm_user_message_write,
+        'right_read': perm_user_room_read,
+        'perm_user_create': perm_user_room_create,
+        'right_delete': perm_user_room_delete,
+        'right_admin': perm_user_admin,
+    }
+    return render(request, 'room/user_right.html', ctx)
 
 #fonction pour recup les 20 derniers messages et les renvoyer en json
 @login_required

@@ -1,0 +1,46 @@
+{% extends 'room/creation_template.html' %}
+
+{% block form %}
+<h1>Modifier les droits pour {{ user.user.username}}</h1>
+<form action="{% url 'room:edit_user_perm' user.user.id %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend>droits</legend>
+        {% if right_message_write %}
+            <input type="checkbox" name="perm_user-message-write" class="perm-choice" value="perm_user-message-write" checked>
+        {% else %}
+            <input type="checkbox" name="perm_user-message-write" class="perm-choice" value="perm_user-message-write">
+        {% endif %}
+        <label for="perm_user-message-write">écrire des messages</label>
+        <br>
+        {% if perm_user_create %}
+            <input type="checkbox" name="perm_user-create" class="perm-choice" value="perm_user-create" checked>
+        {% else %}
+            <input type="checkbox" name="perm_user-create" class="perm-choice" value="perm_user-create">
+        {% endif %}
+        <label for="perm_user-admin">creer un salon</label>
+        <br>
+        {% if right_read %}
+            <input type="checkbox" name="perm_user-read" class="perm-choice" value="perm_user-read" checked>
+        {% else %}
+            <input type="checkbox" name="perm_user-read" class="perm-choice" value="perm_user-read">
+        {% endif %}
+        <label for="perm_user-read">lire les salons</label>
+        <br>
+        {% if right_delete %}
+            <input type="checkbox" name="perm_user-delete" class="perm-choice" value="perm_user-delete" checked>
+        {% else %}
+            <input type="checkbox" name="perm_user-delete" class="perm-choice" value="perm_user-delete">
+        {% endif %}
+        <label for="perm_user-delete">supprimer les salons</label>
+        <br>
+        {% if right_admin %}
+            <input type="checkbox" name="perm_user-admin" class="perm-choice" value="perm_user-admin" checked>
+        {% else %}
+            <input type="checkbox" name="perm_user-admin" class="perm-choice" value="perm_user-admin">
+        {% endif %}
+        <label for="perm_user-admin">administrer le site</label>
+    </fieldset>
+    <input type="submit" value="Modifier">
+</form>
+{% endblock %}
