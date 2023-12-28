@@ -1,17 +1,43 @@
-
-
 aside, #article, #persons-wrapper{
     display: inline-block;
     vertical-align: top;
     margin:0;
 }
-
 a{
-    color:var(--link-color)
+    text-decoration: none;
+    font-size: 20px ;
+    width: 100%;
+    margin:5px;
+    text-align: center;
+    line-height: 25px;
 }
 
-a:hover{
-    color:var(--link-hover)
+.editroom{
+    color:var(--text-color);
+}
+
+.editroom:hover{
+    text-decoration: underline;
+}
+
+a:not(.editroom){
+    color: var(--text-color);
+    background-color: none;
+    display: inline-block;
+    border-radius: 10px;
+    border: 2px solid var(--link-color);
+
+    transition: all 0.2s ease-in-out;
+}
+
+a:not(.editroom):hover{
+    background-color: var(--link-color);
+    color:var(--text-color);
+}
+
+a:not(.editroom):active{
+    background-color: var(--link-hover);
+    text-decoration: underline;
 }
 
 body, html{
@@ -24,12 +50,19 @@ body, html{
 }
 
 #rooms{
-    width: 15%;
+    width: 100%;
+    border-bottom: 2px solid var(--text-color);
+    
+}
+
+.bloc_room{
+    background-color: var(--link-color);
+    margin:5px
 }
 
 aside{
-    width: 200px;
-    height: calc(100vh - 50px);
+    width: 250px;
+    height: calc(100vh - 100px);
     overflow-y: scroll;
 }
 
@@ -41,7 +74,7 @@ aside{
     display: inline-block;
     box-sizing: border-box;
     padding: 10px;
-    width:250px;
+    width:240px;
     overflow-y: scroll;
     height:calc(100vh - 50px);
 }
@@ -52,27 +85,47 @@ aside{
 
 #left{
     padding: 10px;
+    width: calc(100% - 25px);
+    height: calc(100% - 50px)
 }
 
-#rooms{
-    border-bottom: 2px solid var(--text-color);
-    width: 150px;
+
+.person{
+    border: 2px solid var(--background-shadow);
+    border-radius: 5px;
+    margin: 5px;
+    width: 200px;
+    text-align: center;
+    padding-bottom: 5px;
 }
+
 .usertext{
-    display : inline-block;
+    padding: 5px;
 }
 
-.usertext>img{
-    position: absolute;
-    right:0;
+.usertext,p{
+    margin:0px;
+    margin-bottom: 10px;
+}
+
+
+.person-wrapper .persons{
+    width: 249px;
 }
 
 #bloc_dashboard{
-    position:absolute;
-    bottom: 50px;
-    padding : 10px;
+    position: fixed;
     text-align: center;
-    width: 150px;
+    font-size: 20px;
+    text-decoration: underline;
+    width: 240px;
+    bottom: 50px;
+    left: 0px;
+}
+
+#bloc_dashboard>a{
+    height:25px;
+    padding:5px 0px;
 }
 
 #messages{
@@ -96,6 +149,16 @@ aside{
     box-shadow: 0 0 10px var(--message-shadow);
     position: relative;
     overflow: hidden;
+}
+
+#ecrit{
+    height: calc(100% - 20px);
+    vertical-align: middle;
+}
+
+#message{
+    width: calc(100% - 80px);
+    height: 100%;
 }
 
 .yours{
