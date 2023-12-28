@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     {% block style %}
+        <link rel="stylesheet" href="{% static 'css/vars.css' %}" />
         <link rel="stylesheet" href="{% static 'room/style.css' %}" />
     {% endblock %}
 
@@ -15,23 +16,40 @@
 </head>
 <body>
     <aside>
-        {% block room_list %}
-        {% endblock %}
-    </aside>
-    
-    <article id="">
-        <div id="messages">
-            {% block content %}
+        <div id="left">
+            {% block room_list %}
             {% endblock %}
         </div>
+        <div id="bloc_dashboard">
+            <a href="{% url 'user:dashboard' %}">My dashboard</a>    
+        </div>
+    </aside>
+    
+    <article id="article">
+        <div id="messages-wrapper">
+            <div id="messages">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+        <div id="write">
         {% block form %}
         {% endblock %}
+        </div>
     </article>
 
-    <div id="persons">
-        {% block persons %}
-        {% endblock %}
+    <div id="right">
+        <div id="presentation">
+            <h2>{{ current_room.name }}</h2>
+            <p id="description">{{ room.description }}</p>
+        </div>
+        <div id="persons-wrapper">
+            <div id="persons">
+                {% block persons %}
+                {% endblock %}
+            </div>
+        </div>
     </div>
-    <a href="{% url 'user:dashboard' %}">My dashboard</a>
+    <footer>by the PixelNerds</footer>
 </body>
 </html>
