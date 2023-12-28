@@ -28,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "localhost",
-    "192.168.0.29"
 ]
 
 
@@ -134,8 +133,6 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = '/dashboard'
 LOGIN_URL = 'login'

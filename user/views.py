@@ -5,6 +5,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import get_user_model, login, update_session_auth_hash
 from django.contrib import messages
 from .models import UserData
+from room.models import Room, RoomPermission
 from .forms import DescriptionForm
 import random
 
@@ -20,8 +21,13 @@ def register(request):
             colorRotation = random.randint(1, 360)
 
             #on creer le UserData en meme temps
-            udata = UserData(user=user, permissionInteger=0, description="", colorRotation=colorRotation)
+            udata = UserData(user=user, permissionInteger=3, description="", colorRotation=colorRotation)
             udata.save()
+
+            #on ajoute les permissions de salons par defaut
+            for room in Room.objects.all():
+                perm = RoomPermission(room=room, user=user, permission=room.defaultPermission)
+                perm.save()
 
             login(request, user)
             return redirect('/dashboard')

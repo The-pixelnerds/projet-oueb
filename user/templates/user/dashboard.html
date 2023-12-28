@@ -12,6 +12,9 @@
     
     <p>Welcome to your page</p>
     <p>You can change your password <a href="{% url 'user:password_change' %}">here</a></p>
-    <a href="{% url 'user:logout' %}">Logout</a>
+    <form method="post" action="{% url 'user:logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
 
 {% endblock %}

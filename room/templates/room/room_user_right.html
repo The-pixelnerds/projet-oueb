@@ -1,0 +1,46 @@
+{% extends 'room/creation_template.html' %}
+
+{% block form %}
+<h1>Modifier les droits du salon {{ room.name }} pour {{ user.user.username}}</h1>
+<form action="{% url 'room:edit_room_user_perm' room.id user.user.id %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend>droits</legend>
+        {% if right_message_write %}
+            <input type="checkbox" name="perm_room-message-write" class="perm-choice" value="perm_room-message-write" checked>
+        {% else %}
+            <input type="checkbox" name="perm_room-message-write" class="perm-choice" value="perm_room-message-write">
+        {% endif %}
+        <label for="perm_room-message-write">écrire des messages</label>
+        <br>
+        {% if right_read %}
+            <input type="checkbox" name="perm_room-read" class="perm-choice" value="perm_room-read" checked>
+        {% else %}
+            <input type="checkbox" name="perm_room-read" class="perm-choice" value="perm_room-read">
+        {% endif %}
+        <label for="perm_room-read">lire les messages</label>
+        <br>
+        {% if right_delete %}
+            <input type="checkbox" name="perm_room-delete" class="perm-choice" value="perm_room-delete" checked>
+        {% else %}
+            <input type="checkbox" name="perm_room-delete" class="perm-choice" value="perm_room-delete">
+        {% endif %}
+        <label for="perm_room-delete">supprimer les messages</label>
+        <br>
+        {% if right_admin %}
+            <input type="checkbox" name="perm_room-admin" class="perm-choice" value="perm_room-admin" checked>
+        {% else %}
+            <input type="checkbox" name="perm_room-admin" class="perm-choice" value="perm_room-admin">
+        {% endif %}
+        <label for="perm_room-admin">administrer le salon</label>
+        <br>
+        {% if right_deleteMessage %}
+            <input type="checkbox" name="perm_room-deleteMessage" class="perm-choice" value="perm_room-deleteMessage" checked>
+        {% else %}
+            <input type="checkbox" name="perm_room-deleteMessage" class="perm-choice" value="perm_room-deleteMessage">
+        {% endif %}
+        <label for="perm_room-admin">supprimer un message</label>
+    </fieldset>
+    <input type="submit" value="Modifier">
+</form>
+{% endblock %}

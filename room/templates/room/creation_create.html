@@ -10,6 +10,25 @@
         <br>
         <label for="room-description">la description du salon</label>
         <input type="text" name="room-description" id="room-description" placeholder="la description du salon">
+        <br>
+        {% comment %} form group for right selection {% endcomment %}
+        <fieldset>
+            <legend>droits</legend>
+            <input type="checkbox" name="perm_room-message-write" class="perm-choice" value="perm_room-message-write" checked>
+            <label for="perm_room-message-write">écrire des messages</label>
+            <br>
+            <input type="checkbox" name="perm_room-read" class="perm-choice" value="perm_room-read" checked>
+            <label for="perm_room-read">lire les messages</label>
+            <br>
+            <input type="checkbox" name="perm_room-delete" class="perm-choice" value="perm_room-delete" checked>
+            <label for="perm_room-delete">supprimer les messages</label>
+            <br>
+            <input type="checkbox" name="perm_room-admin" class="perm-choice" value="perm_room-admin" checked>
+            <label for="perm_room-admin">administrer le salon</label>
+            <br>
+            <input type="checkbox" name="perm_room-deleteMessage" class="perm-choice" value="perm_room-deleteMessage" checked>
+            <label for="perm_room-admin">supprimer un message</label>
+        </fieldset>
         <input type="submit" value="Envoyer">
     </form>
 {% endblock %}

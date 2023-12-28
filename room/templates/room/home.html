@@ -14,8 +14,12 @@
             <a href="{% url 'room:view' current_room.id %}">{{ current_room.name }}</a>
         {% endfor %}
     </div>
-    <a href="{% url 'room:create_room' %}" id="newRoom">create new room</a>
-    <a href="{% url 'room:remove_room' %}" id="removeroom">remove room</a>
+    {% if details.cancreateRoom %}
+        <a href="{% url 'room:create_room' %}" id="newRoom">create new room</a>
+    {% endif %}
+    {% if details.canremoveRoom %}
+        <a href="{% url 'room:remove_room' %}" id="removeroom">remove room</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -28,6 +32,9 @@
             <p>{{ person.user.username }}</p>
             <p>{{ person.description }}</p>
             <img src="{% static 'room/images/profilepic.png' %}" alt="profil" style="filter:hue-rotate( {{ person.colorRotation }}deg);">
+            {% if details.isadmin %}
+                <a href="{% url 'room:edit_user_perm' person.user.id %}">change perms</a>
+            {% endif %}
         </div>
     {% endfor %}
 {% endblock %}
