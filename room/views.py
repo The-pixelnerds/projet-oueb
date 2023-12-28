@@ -85,6 +85,7 @@ def room(request, room_id):
             'messages': Message.objects.filter(room=room_id),
             'lastMessageId': lastMessageId,
             'lastRoomId': lastRoomId,
+            'currentuserid': request.user.id,
         }
     
     #on ajoute ce qu'il faut pour l'affichage
