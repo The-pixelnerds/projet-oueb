@@ -3,6 +3,11 @@ aside, #article, #persons-wrapper{
     vertical-align: top;
     margin:0;
 }
+
+h1{
+    color: var(--text-color);
+}
+
 a{
     text-decoration: none;
     font-size: 20px ;
