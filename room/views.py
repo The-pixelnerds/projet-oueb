@@ -61,7 +61,7 @@ def room(request, room_id):
             
             if request.POST["message"] != "":
                 #on ajoute le message
-                mess = Message(room=Room.objects.get(id=room_id), user=request.user, message=request.POST["message"])
+                mess = Message(room=Room.objects.get(id=room_id), user=request.user, message=replace_smileys(request.POST["message"]))
                 mess.save()
     
     #get last message id if no message set to 0
