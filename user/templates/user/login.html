@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
-{% block title %}Login{% endblock %}
+{% block title %}Log In{% endblock %}
 {% block content %}
-    <h1>Log in</h1>
+    <h1>Log In</h1>
+    <div class="content">
     {% if form.error %}
     <p>
         Please, check your username and password
@@ -13,18 +14,26 @@
     {% endif %}
     <div class="login-form">
         <form action="{% url 'user:login' %}" method="post">
-            {{form.as_p}}
             {% csrf_token %}
+            <p>
+                <label for="{{ form.username.id_for_label }}">Username:</label>
+                <input type="text" name="{{ form.username.name }}" class="input-area" id="{{ form.username.id_for_label }}">
+            </p>
+            <p>
+                <label for="{{ form.password.id_for_label }}">Password:</label>
+                <input type="password" name="{{ form.password.name }}" class="input-area" id="{{ form.password.id_for_label }}">
+            </p>
             <input type="hidden" name="text" value="{{ next }}">
             <p>
-                <input type="submit" value="Log-in">
+                <button type="submit">Log In</button>
             </p>
         </form>
         <p>
             <a href="{% url 'user:register' %}">Don't have an account?</a>
         </p>
         <p>
-            <a href="#">Forgotten Your Password ?</a>
+            <a href="#">Forgotten Your Password?</a>
         </p>
     </div>
+    </div>  
 {% endblock %}
