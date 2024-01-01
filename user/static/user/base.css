@@ -52,7 +52,7 @@ ul{
 button{
     font-size: 20px;
     
-    margin:5px;
+    margin-left:20px;
     text-align: center;
     line-height: 25px;
     color: var(--text-color);
@@ -123,6 +123,8 @@ form{
 
 .field{
     margin-bottom: 25px;
+    margin-top: 25px;
+    display: inline-block;
 }
 
 .parenthesis{
@@ -143,4 +145,5 @@ form{
 }
 .error-message{
     color: red;
+
 }

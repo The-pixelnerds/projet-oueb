@@ -10,9 +10,14 @@
         
             <form method="post">
                 {% csrf_token %}
-                <label for="{{ form.description.id_for_label }}">Description: <span class="parenthesis">(max 200 char.)</span></label>
+                <div>
+                <label for="{{ form.description.id_for_label }}">New description: <span class="parenthesis">(max 200 char.)</span></label>
+                </div>
+                <div class="field">
                 <input type="text" id="description" name="{{ form.description.name }}" class="input-area">
+                
                 <button type="submit" id="update-button">update</button>
+                </div>
             </form>
         
         
