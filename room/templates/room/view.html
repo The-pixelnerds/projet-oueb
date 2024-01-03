@@ -44,7 +44,7 @@
             </div>
             <div class="message_text">{{ message.message }}</div>
             {% if message.user.id == details.user.id or details.canremoveMessage %}
-                <button class="message__remove" onclick="sendDelete({{ message.id }})">X</button>
+                <button class="message__remove" onclick="sendDelete({{ message.id }})"></button>
             {% endif %}
         </div>
     {% endfor %}
@@ -71,7 +71,7 @@
                 <p>{{ person.user.username }}</p>
                 <p>{{ person.description }}</p>
             </div>  
-            <img src="{% static 'room/images/profilepic.png' %}" alt="profil" style="filter:hue-rotate( {{ person.colorRotation }}deg);"> 
+            <img class="pfp" src="{% static 'room/images/profilepic.png' %}" alt="profil" style="filter:hue-rotate( {{ person.colorRotation }}deg);"> 
             {% if details.isadminroom %}
                 <a href="{% url 'room:edit_room_user_perm' room.id person.user.id %}">change room perms</a>
             {% endif %}

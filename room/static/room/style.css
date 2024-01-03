@@ -102,6 +102,23 @@ aside{
     height: calc(100% - 50px)
 }
 
+.pfp{
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+    image-rendering: pixelated;
+}
+
+.message__remove{
+    /* image supr dans static */
+    background-image: url("/static/room/images/supr.png");
+    width: 30px;
+    height: 30px;
+    border:none;
+    background-color: transparent;
+    /* change image size */
+    background-size: 30px 30px;
+}
 
 .person{
     border: 2px solid var(--background-shadow);

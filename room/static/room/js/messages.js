@@ -1,5 +1,5 @@
 function addMessage(message) {
-    var deleteButton = "<button class=\"message__remove\" onclick=\"sendDelete("+message.id+")\">X</button>"
+    var deleteButton = "<button class=\"message__remove\" onclick=\"sendDelete("+message.id+")\"></button>"
 
     $("#messages").append(
         "<div id=\"message-"+message.id+"\" class=\"message\">"+
