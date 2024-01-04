@@ -118,12 +118,12 @@ aside{
 .message__remove{
     /* image supr dans static */
     background-image: url("/static/room/images/supr.png");
-    width: 30px;
-    height: 30px;
+    width: 15px;
+    height: 15px;
     border:none;
     background-color: transparent;
     /* change image size */
-    background-size: 30px 30px;
+    background-size: 15px 15px;
 
     /* change button position */
     position: absolute;

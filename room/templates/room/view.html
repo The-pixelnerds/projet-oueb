@@ -34,9 +34,9 @@
 {% block content %}
     {% for message in messages %}
         {% if message.user.id == currentuserid %}
-            <div class="message yours">
+            <div id="message-{{message.id}}" class="message yours">
         {% else %}
-            <div class="message notyours">
+            <div id="message-{{message.id}}" class="message notyours">
         {% endif %}
             <div class="message_header">
                 <div class="message_author">{{ message.user.username }}</div>
