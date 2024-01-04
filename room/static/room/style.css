@@ -1,3 +1,8 @@
+@font-face {
+    font-family: thaleah;
+    src: url("/static/font/ThaleahFat_TTF.ttf");
+}
+
 aside, #article, #persons-wrapper{
     display: inline-block;
     vertical-align: top;
@@ -10,7 +15,7 @@ h1{
 
 a{
     text-decoration: none;
-    font-size: 20px ;
+    font-size: 1em ;
     width: 90%;
     margin:5px;
     text-align: center;
@@ -56,6 +61,7 @@ body, html{
     width: 100%;
     color : var(--text-color);
     overflow-y: hidden;
+    font-family: thaleah;
 }
 
 #rooms{
@@ -118,6 +124,11 @@ aside{
     background-color: transparent;
     /* change image size */
     background-size: 30px 30px;
+
+    /* change button position */
+    position: absolute;
+    top: 5px;
+    right: 5px;
 }
 
 .person{
