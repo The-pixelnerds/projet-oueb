@@ -55,7 +55,7 @@
     <form action="{% url 'room:view' room.id %}" method="post" id="ecrit">
         {% csrf_token %}
         <input type="text" name="message" id="message" placeholder="Votre message" autocomplete="off" autofocus>
-        <input type="submit" value="Envoyer">
+        <input type="submit" value="" id="message_send">
     </form>
     
 {% endblock %}

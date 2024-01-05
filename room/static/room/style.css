@@ -31,6 +31,28 @@ a{
     line-height: 25px;
 }
 
+#message_send{
+    background:var(--link-color);
+    background-image:url(/static/room/images/send.png);
+    width: 40px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 24px 24px;
+    image-rendering: pixelated;
+    border:none;
+    border-radius: 50%;
+    margin-left: 10px;
+    /* differentes transition */
+    transition: all 0.2s ease-in-out;
+}
+
+#message_send:hover{
+    background-color: var(--link-hover);
+    cursor: pointer;
+    border-radius: 20%;
+}
+
 #messages{
     min-height:calc(100% - 20px);
 }
@@ -250,4 +272,9 @@ aside{
 footer{
     height: 50px;
     background-color: var(--background-color);
+    /* align tout au centre */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
 }
