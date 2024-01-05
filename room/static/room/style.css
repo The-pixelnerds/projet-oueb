@@ -3,6 +3,15 @@
     src: url("/static/font/ThaleahFat_TTF.ttf");
 }
 
+@font-face {
+    font-family: loxica;
+    src: url("/static/font/v5loxicar.ttf");
+}
+
+input{
+    font-family: loxica;
+}
+
 aside, #article, #persons-wrapper{
     display: inline-block;
     vertical-align: top;
@@ -20,6 +29,10 @@ a{
     margin:5px;
     text-align: center;
     line-height: 25px;
+}
+
+#messages{
+    min-height:calc(100% - 20px);
 }
 
 .person a{
@@ -61,7 +74,7 @@ body, html{
     width: 100%;
     color : var(--text-color);
     overflow-y: hidden;
-    font-family: thaleah;
+    font-family: loxica;
 }
 
 #rooms{
