@@ -117,18 +117,26 @@ aside{
 
 .message__remove{
     /* image supr dans static */
-    background-image: url("/static/room/images/supr.png");
-    width: 15px;
-    height: 15px;
+    background-image: none;
+    width: 20px;
+    height: 20px;
     border:none;
     background-color: transparent;
     /* change image size */
-    background-size: 15px 15px;
+    background-size: 20px 20px;
 
     /* change button position */
     position: absolute;
     top: 5px;
     right: 5px;
+}
+
+.message:hover .message__remove{
+    background-image: url("/static/room/images/supr.png");
+}
+
+.message__remove:hover{
+    cursor: pointer;
 }
 
 .person{
