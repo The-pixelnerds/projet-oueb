@@ -27,3 +27,13 @@ puis lancer les commandes suivantes
 python3 manage.py migrate
 python3 manage.py runserver
 ```
+
+## pour creer un admin
+
+pour creer un nouvel admin executez la commande suivante:
+
+```bash
+python3 manage.py createadminuser <username>
+```
+
+l'admin peut creer, modifier et supprimer des salons, des utilisateurs et des messages
