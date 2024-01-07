@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{% static 'css/vars.css' %}" />
     <link rel="stylesheet" href="{% static 'user/base.css' %}" />
     {% endblock %}
+    <script src="https://kit.fontawesome.com/167f1fd28a.js" crossorigin="anonymous"></script>
+    <script src="{% static 'js/theme.js' %}"></script>
     <link rel="icon" type="image/png" href={% static 'img/logo.png'%}>
 </head>
 <body>
@@ -28,5 +30,9 @@
         {% block content %}
         {% endblock %}
     </div>
+    <button id="themeButton" onclick="swapTheme()">
+        <i class="fas fa-moon" id="moon"></i>
+        <i class="fas fa-sun" id="sun"></i>
+    </button>
 </body>
 </html>

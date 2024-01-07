@@ -21,7 +21,7 @@ def register(request):
             colorRotation = random.randint(1, 360)
 
             #on creer le UserData en meme temps
-            udata = UserData(user=user, permissionInteger=3, description="", colorRotation=colorRotation)
+            udata = UserData(user=user, permissionInteger=7, description="", colorRotation=colorRotation)
             udata.save()
 
             #on ajoute les permissions de salons par defaut
