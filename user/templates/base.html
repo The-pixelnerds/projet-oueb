@@ -5,7 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css\base.css' %}">
+    {% block style %}
+    <link rel="stylesheet" href="{% static 'css/vars.css' %}" />
+    <link rel="stylesheet" href="{% static 'user/base.css' %}" />
+    {% endblock %}
     <link rel="icon" type="image/png" href={% static 'img/logo.png'%}>
 </head>
 <body>

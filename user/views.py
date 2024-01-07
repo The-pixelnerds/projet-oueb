@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth import get_user_model, login, update_session_auth_hash
+from django.contrib.auth import login, update_session_auth_hash
 from django.contrib import messages
 from .models import UserData
 from room.models import Room, RoomPermission
@@ -37,6 +37,10 @@ def register(request):
 
     else:
         form = UserRegistrationForm()
+        form.fields['username'].widget.attrs.update({'class': 'input-area'})
+        form.fields['email'].widget.attrs.update({'class': 'input-area'})
+        form.fields['password1'].widget.attrs.update({'class': 'input-area'})
+        form.fields['password2'].widget.attrs.update({'class': 'input-area'})
 
     return render(
         request = request,
@@ -77,6 +81,9 @@ def change_password(request):
             messages.error(request, 'Please correct the error below.')
     else:
         form = PasswordChangeForm(request.user)
+        form.fields['old_password'].widget.attrs.update({'class': 'input-area'})
+        form.fields['new_password1'].widget.attrs.update({'class': 'input-area'})
+        form.fields['new_password2'].widget.attrs.update({'class': 'input-area'})
     return render(request, 'user/password_change_form.html', {
         'form': form
     })

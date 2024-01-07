@@ -1,30 +1,47 @@
 {% extends 'base.html' %}
-{% block title %}Login{% endblock %}
+{% load static %}
+
+{% block title %}Log In{% endblock %}
 {% block content %}
-    <h1>Log in</h1>
-    {% if form.error %}
-    <p>
-        Please, check your username and password
-    </p>
-    {% else %}
-    <p>
-        Please; use the following form to login
-    </p>
-    {% endif %}
-    <div class="login-form">
-        <form action="{% url 'user:login' %}" method="post">
-            {{form.as_p}}
-            {% csrf_token %}
-            <input type="hidden" name="text" value="{{ next }}">
+    <h1>Log In</h1>
+    <div class="content">
+        <div class="login-form">
+            <form action="{% url 'user:login' %}" method="post" id="login-form">
+                {% csrf_token %}
+                <div>
+                    <label for="{{ form.username.id_for_label }}">Username:</label>
+                </div>
+                <div class="field">
+                    <input type="text" name="{{ form.username.name }}" class="input-area" id="{{ form.username.id_for_label }}">
+                </div>
+                <div>
+                    <label for="{{ form.password.id_for_label }}">Password:</label>
+                </div>
+                <div class="field">
+                    <input type="password" name="{{ form.password.name }}" class="input-area" id="{{ form.password.id_for_label }}">
+                </div>
+                <div>
+                    {% if form.errors %}
+                        <div class="error-message">
+                            Username or password is incorrect, please try again.
+                                
+                        </div>
+                        {% endif %}
+                </div>
+                <input type="hidden" name="text" value="{{ next }}">
+                
+                <button type="submit" id="button">Log In</button>
+                
+            </form>
+            <div id="validation-message" class="validation-message"></div>
             <p>
-                <input type="submit" value="Log-in">
+                <a href="{% url 'user:register' %}">Don't have an account?</a>
             </p>
-        </form>
-        <p>
-            <a href="{% url 'user:register' %}">Don't have an account?</a>
-        </p>
-        <p>
-            <a href="#">Forgotten Your Password ?</a>
-        </p>
-    </div>
+            <p>
+                <a href="https://www.youtube.com/watch?v=9NcPvmk4vfo">Forgotten Your Password?</a>
+            </p>
+        </div>
+        
+    </div>  
+    <script src="{% static '/user/js/login-validation.js' %}"></script>
 {% endblock %}

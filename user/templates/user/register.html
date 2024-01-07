@@ -1,26 +1,63 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-    <div >
-        <form method="POST">
+<h1>Registration</h1>
+    <div class="content">
+        <form method="POST" id="registration-form">
             {% csrf_token %}
             <div>
                 <label for="{{ form.username.id_for_label }}">Username:</label>
-                {{ form.username }}
             </div>
+            <div class="field">
+                <input type="text" class="input-area" id="{{ form.username.id_for_label }}" name="{{ form.username.name }}">
+            </div>
+            <div>
+                {% if form.username.errors %}
+                <div class="error-message">
+                    {{ form.username.errors }}
+                </div>
+                {% endif %}
+            </div>
+
             <div>
                 <label for="{{ form.email.id_for_label }}">Email:</label>
-                {{ form.email }}
             </div>
+            <div class="field">
+                <input type="email" class="input-area" id="{{ form.email.id_for_label }}" name="{{ form.email.name }}">
+            </div>
+            
             <div>
                 <label for="{{ form.password1.id_for_label }}">Password:</label>
-                {{ form.password1 }}
+            </div>
+            <div class="field">
+                <input type="password" class="input-area" id="{{ form.password1.id_for_label }}" name="{{ form.password1.name }}">
             </div>
             <div>
-                <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
-                {{ form.password2 }}
+                {% if form.password1.errors %}
+                <div class="error-message">
+                    {{ form.password1.errors }}
+                </div>
+                {% endif %}
             </div>
-            <button type="submit">Register</button>
+            
+            <div>
+                <label for="{{ form.password2.id_for_label }}">Confirm password:</label>
+            </div>
+            <div class="field">
+                <input type="password" class="input-area" id="{{ form.password2.id_for_label }}" name="{{ form.password2.name }}">
+            </div>
+            <div>
+                {% if form.password2.errors %}
+                <div class="error-message">
+                    {{ form.password2.errors }}
+                </div>
+                {% endif %}
+            </div>
+            <button type="submit" id="button">Register</button>
             </form>
-        <p>Already Have An Account? <a class="ml-2" href="{% url 'user:login' %}">Sign In</a></p>
+            <div id="validation-message" class="validation-message"></div>
+        <p>Already Have An Account? <a class="ml-2" href="{% url 'user:login' %}">Log In</a></p>
     </div>
+    <script src="{% static '/user/js/registration-validation.js' %}"></script>
 {% endblock content %}
