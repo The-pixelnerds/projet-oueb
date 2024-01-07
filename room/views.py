@@ -91,7 +91,7 @@ def room(request, room_id):
     #on ajoute ce qu'il faut pour l'affichage
     details = {
         'cancreateRoom': Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger, USER_ROOM_CREATE),
-        'canremoveRoom': Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger, USER_ROOM_DELETE),
+        'canremoveRoom': Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger, USER_ROOM_DELETE) or (permInRoom.exists() and (Perms.test(permInRoom[0].permission, ROOM_DELETE) or Perms.test(permInRoom[0].permission, ROOM_ADMIN))),
         'canremoveMessage': Perms.test(userData.permissionInteger,USER_ADMIN) or (permInRoom.exists() and Perms.test(permInRoom[0].permission, ROOM_MESSAGE_DELETE)),
         'user': request.user,
         'isadminroom': Perms.test(userData.permissionInteger,USER_ADMIN) or (permInRoom.exists() and Perms.test(permInRoom[0].permission, ROOM_ADMIN)),
@@ -138,8 +138,6 @@ def createroom(request):
 
 @login_required
 def removeroom(request):
-    if not (Perms.test(UserData.objects.get(user=request.user).permissionInteger,USER_ADMIN) or Perms.test(UserData.objects.get(user=request.user).permissionInteger, USER_ROOM_DELETE)):
-        return redirect('/channels')
     #todo test if user have right to remove room
     if request.method == 'POST':
         #on regarde si on a le droit de supprimer le salon
@@ -159,8 +157,17 @@ def removeroom(request):
         
         return http.HttpResponseRedirect('/channels')
     
+    #on filtre pour recuperer tout les salons où on a le droits de le supr
+    rooms = Room.objects.all()
+    if not Perms.test(UserData.objects.get(user=request.user).permissionInteger,USER_ADMIN) and not Perms.test(UserData.objects.get(user=request.user).permissionInteger, USER_ROOM_DELETE):
+        newrooms = []
+        for room in rooms:
+            if Perms.test(RoomPermission.objects.get(room=room.id, user=request.user).permission, ROOM_DELETE) or Perms.test(RoomPermission.objects.get(room=room.id, user=request.user).permission, ROOM_ADMIN):
+                newrooms.append(room)
+        rooms = newrooms
+
     ctx = {
-        'rooms': Room.objects.all()
+        'rooms': rooms
     }
     
     return render(request, 'room/creation_remove.html', ctx)

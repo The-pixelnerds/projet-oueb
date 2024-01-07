@@ -1,3 +1,8 @@
+@font-face {
+    font-family: loxica;
+    src: url("/static/font/v5loxicar.ttf");
+}
+
 body, html{
     padding:0;
     margin:0;
@@ -5,6 +10,11 @@ body, html{
     width: 100%;
     color : var(--text-color);
     overflow-y: hidden;
+    font-family: loxica;
+}
+
+button, input{
+    font-family: loxica;
 }
 
 h1{
@@ -107,7 +117,7 @@ form{
 
 #name{
     font-weight: bold;
-    color: #F9FAFD;
+    color: var(--text-color);
 }
 
 #description{
