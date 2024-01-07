@@ -5,6 +5,8 @@
     <title>Projet oueb²</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/167f1fd28a.js" crossorigin="anonymous"></script>
+    <script src="{% static 'js/theme.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     {% block style %}
         <link rel="stylesheet" href="{% static 'css/vars.css' %}" />
@@ -13,11 +15,16 @@
 
     {% block script %}
     {% endblock %}
+    <link rel="icon" type="image/png" href={% static 'img/logo.png'%}>
 </head>
 <body>
     <div id="header">
         {% block form %}
         {% endblock %}
     </div>
+    <button id="themeButton" onclick="swapTheme()">
+        <i class="fas fa-moon" id="moon"></i>
+        <i class="fas fa-sun" id="sun"></i>
+    </button>
 </body>
 </html>

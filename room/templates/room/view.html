@@ -34,9 +34,9 @@
 {% block content %}
     {% for message in messages %}
         {% if message.user.id == currentuserid %}
-            <div class="message yours">
+            <div id="message-{{message.id}}" class="message yours">
         {% else %}
-            <div class="message notyours">
+            <div id="message-{{message.id}}" class="message notyours">
         {% endif %}
             <div class="message_header">
                 <div class="message_author">{{ message.user.username }}</div>
@@ -44,7 +44,7 @@
             </div>
             <div class="message_text">{{ message.message }}</div>
             {% if message.user.id == details.user.id or details.canremoveMessage %}
-                <button class="message__remove" onclick="sendDelete({{ message.id }})">X</button>
+                <button class="message__remove" onclick="sendDelete({{ message.id }})"></button>
             {% endif %}
         </div>
     {% endfor %}
@@ -55,7 +55,7 @@
     <form action="{% url 'room:view' room.id %}" method="post" id="ecrit">
         {% csrf_token %}
         <input type="text" name="message" id="message" placeholder="Votre message" autocomplete="off" autofocus>
-        <input type="submit" value="Envoyer">
+        <input type="submit" value="" id="message_send">
     </form>
     
 {% endblock %}
@@ -71,7 +71,7 @@
                 <p>{{ person.user.username }}</p>
                 <p>{{ person.description }}</p>
             </div>  
-            <img src="{% static 'room/images/profilepic.png' %}" alt="profil" style="filter:hue-rotate( {{ person.colorRotation }}deg);"> 
+            <img class="pfp" src="{% static 'room/images/profilepic.png' %}" alt="profil" style="filter:hue-rotate( {{ person.colorRotation }}deg);"> 
             {% if details.isadminroom %}
                 <a href="{% url 'room:edit_room_user_perm' room.id person.user.id %}">change room perms</a>
             {% endif %}
