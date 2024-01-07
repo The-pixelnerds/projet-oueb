@@ -1,3 +1,17 @@
+@font-face {
+    font-family: thaleah;
+    src: url("/static/font/ThaleahFat_TTF.ttf");
+}
+
+@font-face {
+    font-family: loxica;
+    src: url("/static/font/v5loxicar.ttf");
+}
+
+input{
+    font-family: loxica;
+}
+
 aside, #article, #persons-wrapper{
     display: inline-block;
     vertical-align: top;
@@ -10,11 +24,41 @@ h1{
 
 a{
     text-decoration: none;
-    font-size: 20px ;
-    width: 100%;
+    font-size: 1em ;
+    width: 90%;
     margin:5px;
     text-align: center;
     line-height: 25px;
+}
+
+#message_send{
+    background:var(--link-color);
+    background-image:url(/static/room/images/send.png);
+    width: 40px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 24px 24px;
+    image-rendering: pixelated;
+    border:none;
+    border-radius: 50%;
+    margin-left: 10px;
+    /* differentes transition */
+    transition: all 0.2s ease-in-out;
+}
+
+#message_send:hover{
+    background-color: var(--link-hover);
+    cursor: pointer;
+    border-radius: 20%;
+}
+
+#messages{
+    min-height:calc(100% - 20px);
+}
+
+.person a{
+    width: 80%;
 }
 
 .editroom{
@@ -52,6 +96,7 @@ body, html{
     width: 100%;
     color : var(--text-color);
     overflow-y: hidden;
+    font-family: loxica;
 }
 
 #rooms{
@@ -82,7 +127,11 @@ aside{
     width:240px;
     overflow-y: scroll;
     height:calc(100vh - 50px);
+    vertical-align: top;
+    position: absolute;
+    right: 0px;
 }
+
 
 #description{
     border-bottom: 2px solid var(--text-color);
@@ -94,6 +143,36 @@ aside{
     height: calc(100% - 50px)
 }
 
+.pfp{
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+    image-rendering: pixelated;
+}
+
+.message__remove{
+    /* image supr dans static */
+    background-image: none;
+    width: 20px;
+    height: 20px;
+    border:none;
+    background-color: transparent;
+    /* change image size */
+    background-size: 20px 20px;
+
+    /* change button position */
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.message:hover .message__remove{
+    background-image: url("/static/room/images/supr.png");
+}
+
+.message__remove:hover{
+    cursor: pointer;
+}
 
 .person{
     border: 2px solid var(--background-shadow);
@@ -163,7 +242,15 @@ aside{
 
 #message{
     width: calc(100% - 80px);
-    height: 100%;
+    height: 30px;
+    border-radius: 15px;
+    border: 3px solid var(--link-color);
+    padding: 10px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    color: var(--text-color);
+    background-color: var(--article-color);
+
 }
 
 .yours{
@@ -179,9 +266,15 @@ aside{
     background-color: var(--aside-color);
     border-radius: 5px;
     height:40px;
+    width: 100%;
 }
 
 footer{
     height: 50px;
     background-color: var(--background-color);
+    /* align tout au centre */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
 }
