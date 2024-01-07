@@ -3,6 +3,7 @@
     src: url("/static/font/v5loxicar.ttf");
 }
 
+
 body, html{
     padding:0;
     margin:0;
@@ -12,6 +13,19 @@ body, html{
     overflow-y: hidden;
     font-family: loxica;
 }
+
+input{
+    width:200px;
+    height: 30px;
+    border-radius: 15px;
+    border: 3px solid var(--link-color);
+    padding: 10px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
 
 button, input{
     font-family: loxica;
