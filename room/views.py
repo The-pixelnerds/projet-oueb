@@ -258,14 +258,15 @@ def getMessages(request, room_id, last_id):
     if request.method == 'GET':
         #on recupere les derniers messages
         messages = Message.objects.filter(room=room_id, id__gt=last_id).order_by('id')
-
+        
         #on les met dans un tableau
         tab = []
         for mess in messages:
+            sanitized_message = mess.message.replace("<script>", "<&script>")
             tab.append({
                 'id': mess.id,
                 'user': mess.user.username,
-                'message': mess.message,
+                'message': sanitized_message,
                 'date': mess.timestamp.strftime("%d/%m/%Y %H:%M:%S"),
                 'candelete': Perms.test(UserData.objects.get(user=request.user).permissionInteger,USER_ADMIN) or (RoomPermission.objects.filter(room=room_id, user=request.user).exists() and (Perms.test(RoomPermission.objects.get(room=room_id, user=request.user).permission, ROOM_MESSAGE_DELETE) or Perms.test(RoomPermission.objects.get(room=room_id, user=request.user).permission, ROOM_ADMIN))),
             })
