@@ -18,6 +18,10 @@ aside, #article, #persons-wrapper{
     margin:0;
 }
 
+#person{
+    width: 100%;
+}
+
 h1{
     color: var(--text-color);
 }
@@ -103,6 +107,11 @@ body, html{
     width: 100%;
     border-bottom: 2px solid var(--text-color);
     
+}
+
+.desc{
+    width: 200px;
+    overflow-wrap: break-word;
 }
 
 .bloc_room{
