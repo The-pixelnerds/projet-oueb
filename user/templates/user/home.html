@@ -4,18 +4,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}</title>
+    <title>Projet-Oueb²</title>
+    <link rel="icon" type="image/png" href={% static 'img/logo.png'%}>
+    <link rel="stylesheet" href="{% static 'css\vars.css' %}">
     <link rel="stylesheet" href="{% static 'css\home.css' %}">
-    <link rel="stylesheet" href="{% static 'css\home.css' %}">
+    <script src="https://kit.fontawesome.com/167f1fd28a.js" crossorigin="anonymous"></script>
+    <script src="{% static 'js/theme.js' %}"></script>
 </head>
 <body>
-    <div id="header">
-        
-    </div>
-    <div>
-        
-    </div>
+    <header>
+            <img id="logo" img src="{% static 'img\logo.png' %}" alt="logo">
+            <h1 id="name">Projet-oueb²</h1>
+    </header>
+    <main>
+        {% block content %}
+            <h2>A place to call Home</h2>
+            <p> the <del>last</del> first website made for comunication, sharing and learning</p>
+            <p id="join"> don't be shy, come and join us !</p>
+            <div>
+                <a class="button" href="{% url 'user:login' %}">Login</a>
+                <a class="button" href="{% url 'user:register' %}">Register</a>
+            </div>
+
+            <h2>What is this website ?</h2>
+            <p> This website is a message board, where you can create a room to talk with others, or join an existing one</p>
+            <p> You can also create a private room, where you can invite your friends to talk with you</p>
+            <p> be careful to be polite with others, you can read the rules <a class="link" href="{% url 'user:rules' %}">here</a></p>
+
+        {% endblock %}
+    </main>
     <footer>
-        
+        &copy; by the PixelNerds
+    </footer>
+    <button id="themeButton" onclick="swapTheme()">
+        <i class="fas fa-moon" id="moon"></i>
+        <i class="fas fa-sun" id="sun"></i>
+    </button>
 </body>
 </html>

@@ -1,0 +1,122 @@
+@font-face {
+    font-family: loxica;
+    src: url("/static/font/v5loxicar.ttf");
+}
+
+body, html{
+    padding:0;
+    margin:0;
+    background-color: var(--background-color);
+    width: 100%;
+    color : var(--text-color);
+    overflow-y: hidden;
+    font-family: loxica;
+}
+
+/* css du header */
+
+header{
+    width:100%;
+    background-color: var(--aside-color);
+    box-shadow: 0px 0px 20px var(--message-shadow);
+}
+
+#logo{
+    padding:5px 15px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#name{
+    display: inline-block;
+    margin: 5px 10px;
+    vertical-align: middle;
+}
+
+/* main content */
+
+main{
+    width: 100%;
+    height: 100vh; /* Add this line */
+    display: flex;
+    padding-bottom: 50px;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+main h2{
+    margin: 0;
+    font-size: 3em;
+}
+
+main p{
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.button{
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border:3px solid var(--link-color);
+    text-decoration: none;
+    font-size: 1.5em;
+    height:30px;
+    border-radius: 15px;
+    padding: auto 10px;
+    text-align: center;
+    transition: background-color 0.2s ease;
+    margin: 10px;
+    display: inline-block;
+    width:100px;
+}
+
+.button:hover{
+    background-color: var(--link-color);
+}
+
+.link{
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.link:hover{
+    color: var(--link-hover);
+}
+
+.rule-section{
+    width: 100%;
+    padding-left:20px;
+}
+
+.rule-section h2{
+    text-align: center;
+}
+
+ol{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+
+}
+
+li{
+    font-size: 1.5em;
+    margin: 10px;
+}
+
+/* footer */
+
+footer{
+    width: 100%;
+    background-color: var(--aside-color);
+    text-align: center;
+    /* en bas */
+    padding-top:10px;
+    position: absolute;
+    bottom: 0;
+    height: 50px;
+}

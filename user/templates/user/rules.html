@@ -1,0 +1,27 @@
+{% extends 'user/home.html' %}
+{% load static %}
+
+{% block content %}
+    <a class="button" href="{% url 'user:home' %}">Home</a>
+    <div class="rule-section">
+        <h2>Zero Tolerance Policies</h2>
+        <ol>
+            <li>Zero tolerance for harassment, hate speech, or discrimination. Immediate ban.</li>
+            <li>Explicit content or inappropriate behavior will result in an immediate ban.</li>
+            <li>No tolerance for spamming or unsolicited advertising.</li>
+            <li>Impersonation or misrepresentation will lead to account suspension.</li>
+            <li>Threats of harm to self or others result in an immediate ban.</li>
+        </ol>
+    </div>
+
+    <div class="rule-section">
+        <h2>Additional Guidelines</h2>
+        <ol>
+            <li>Users must not create rooms with explicit, hateful, or harmful content.</li>
+            <li>Repeated violations will result in escalating penalties, including temporary or permanent bans.</li>
+            <li>Disruptive behavior or intentional disruptions will face consequences.</li>
+            <li>Violation of local, national, or international laws leads to immediate ban and reporting.</li>
+            <li>False reporting or abusing the reporting system results in account suspension.</li>
+        </ol>
+    </div>
+{% endblock %}

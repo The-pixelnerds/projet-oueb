@@ -9,6 +9,15 @@ from room.models import Room, RoomPermission
 from .forms import DescriptionForm
 import random
 
+def home(request):
+    if request.user.is_authenticated:
+        return redirect("/dashboard")
+    else:
+        return render(request, 'user/home.html')
+
+def rules(request):
+    return render(request, 'user/rules.html')
+
 def register(request):
     # Logged in user can't register a new account
     if request.user.is_authenticated:

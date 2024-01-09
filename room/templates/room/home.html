@@ -30,7 +30,7 @@
     {% for person in persons %}
         <div class="person">
             <p>{{ person.user.username }}</p>
-            <p>{{ person.description }}</p>
+            <p class="desc">{{ person.description }}</p>
             <img class="pfp" src="{% static 'room/images/profilepic.png' %}" alt="profil" style="filter:hue-rotate( {{ person.colorRotation }}deg);">
             {% if details.isadmin %}
                 <a href="{% url 'room:edit_user_perm' person.user.id %}">change perms</a>

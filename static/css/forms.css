@@ -1,4 +1,72 @@
-body{
+@font-face {
+    font-family: loxica;
+    src: url("/static/font/v5loxicar.ttf");
+}
+
+html{
     background-color: var(--background-color);
     color: var(--text-color);
+    font-family: loxica;
+    font-size: 1.5em;
+}
+
+#header{
+    width:400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+input[type="text"]{
+    height: 30px;
+    border-radius: 15px;
+    border: 3px solid var(--link-color);
+    padding: 10px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    font-family: loxica;
+}
+
+input[type="submit"]{
+    width:100%;
+    text-align: center;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    border-radius: 100px;
+    border: 3px solid var(--link-color);
+    font-family: loxica;
+    font-size: 1em;
+    margin-top: 10px;
+    padding: 5px;
+    transition: background-color 0.2s ease;
+}
+
+input[type="submit"]:hover{
+    background-color: var(--link-color);
+    cursor: pointer;
+}
+
+select{
+    height: 30px;
+    border-radius: 15px;
+    border: 3px solid var(--link-color);
+    margin: 5px 0;
+    box-sizing: border-box;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    font-family: loxica;
+}
+
+select>option{
+    color: var(--text-color);
+    background-color: var(--background-color);
+    font-family: loxica;
+}
+
+fieldset{
+    border: 3px solid var(--link-color);
+    border-radius: 10px;
 }
