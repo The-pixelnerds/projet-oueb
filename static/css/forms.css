@@ -49,6 +49,52 @@ input[type="submit"]:hover{
     cursor: pointer;
 }
 
+#ban{
+    box-sizing: border-box;
+    display: block;
+    width:100%;
+    text-align: center;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    border-radius: 100px;
+    border: 3px solid var(--link-color);
+    font-family: loxica;
+    font-size: 1em;
+    transition: background-color 0.2s ease;
+    text-decoration: none;
+
+    position: absolute;
+    bottom: -150px;
+}
+
+#homeb{
+    background-color: var(--article-background);
+    color: var(--text-color);
+    display: block;
+    box-sizing: border-box;
+    text-align: center;
+    border:none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    position:absolute;
+    top: 10px;
+    left: 10px;
+    line-height: 40px;
+    border: 3px solid #00000000;
+    transition: border-radius 0.4s ease, border 0.2s ease;
+}
+
+#homeb:hover{
+    border: 3px solid var(--link-color);
+    border-radius: 20%;
+}
+
+#ban:hover{
+    background-color: var(--link-color);
+    cursor: pointer;
+}
+
 select{
     height: 30px;
     border-radius: 15px;
