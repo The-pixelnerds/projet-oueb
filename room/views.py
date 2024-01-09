@@ -262,7 +262,7 @@ def getMessages(request, room_id, last_id):
         #on les met dans un tableau
         tab = []
         for mess in messages:
-            sanitized_message = mess.message.replace("<script>", "<&script>")
+            sanitized_message = mess.message.replace("<", "<.")
             tab.append({
                 'id': mess.id,
                 'user': mess.user.username,
