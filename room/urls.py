@@ -9,6 +9,7 @@ urlpatterns = [
     path('remove', views.removeroom, name='remove_room'),
     path('editroomuserperm/<int:room_id>/<int:user_id>', views.editroomuserperm, name='edit_room_user_perm'),
     path('edituser/<int:user_id>', views.edituserperm, name='edit_user_perm'),
+    path('user/ban/<int:userid>', views.banUser, name='ban'),
     
     path('room/<int:room_id>/messages/<int:last_id>', views.getMessages, name='messages'),
     path('room/rooms', views.getRooms, name='rooms'),

@@ -18,6 +18,9 @@
     <link rel="icon" type="image/png" href={% static 'img/logo.png'%}>
 </head>
 <body>
+    <a id="homeb" href="{% url 'room:home' %}">
+        <i class="fas fa-home"></i>
+    </a>
     <div id="header">
         {% block form %}
         {% endblock %}

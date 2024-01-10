@@ -6,6 +6,7 @@ from tools.Perms.Perms import *
 
 from user.models import UserData
 from .models import Room, Message, RoomPermission, MessageDeletion
+from django.contrib.auth.models import User
 
 import re
 
@@ -204,6 +205,7 @@ def editroomuserperm(request, room_id, user_id):
     ctx = {
         'room': Room.objects.get(id=room_id),
         'user': UserData.objects.get(user=user_id),
+        'useradmin': Perms.test(UserData.objects.get(user=request.user).permissionInteger,USER_ADMIN),
         'right_message_write': perm_room_message_write,
         'right_read': perm_room_read,
         'right_delete': perm_room_delete,
@@ -244,6 +246,7 @@ def edituserperm(request, user_id):
 
     ctx = {
         'user': UserData.objects.get(user=user_id),
+        'useradmin': Perms.test(UserData.objects.get(user=request.user).permissionInteger,USER_ADMIN),
         'right_message_write': perm_user_message_write,
         'right_read': perm_user_room_read,
         'perm_user_create': perm_user_room_create,
@@ -251,6 +254,27 @@ def edituserperm(request, user_id):
         'right_admin': perm_user_admin,
     }
     return render(request, 'room/user_right.html', ctx)
+
+@login_required
+def banUser(request, userid):
+    #on verifie qu'on a le droit de bannir l'utilisateur
+    if not (Perms.test(UserData.objects.get(user=request.user).permissionInteger,USER_ADMIN)):
+        return redirect('/channels')
+
+    #on supprime TOUT les differentes perms de l'utilisateur de chaque salon
+    perms = RoomPermission.objects.filter(user=userid)
+    perms.delete()
+
+    #on le ban (suppression de tout ses messages)
+    messages = Message.objects.filter(user=userid)
+    messages.delete()
+
+    #on le supprime
+    user = UserData.objects.get(user=userid)
+    user.user.delete()
+    user.delete()
+    
+    return http.HttpResponseRedirect('/channels')
 
 #fonction pour recup les 20 derniers messages et les renvoyer en json
 @login_required

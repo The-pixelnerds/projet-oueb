@@ -40,7 +40,12 @@
             <input type="checkbox" name="perm_user-admin" class="perm-choice" value="perm_user-admin">
         {% endif %}
         <label for="perm_user-admin">administrer le site</label>
+
+        
     </fieldset>
     <input type="submit" value="Modifier">
+    {% if useradmin %}
+        <a id="ban"  href="{% url 'room:ban' user.user.id %}">Ban</a>
+    {% endif %}
 </form>
 {% endblock %}

@@ -25,7 +25,7 @@
         {% else %}
             <input type="checkbox" name="perm_room-delete" class="perm-choice" value="perm_room-delete">
         {% endif %}
-        <label for="perm_room-delete">supprimer les messages</label>
+        <label for="perm_room-delete">supprimer le salon</label>
         <br>
         {% if right_admin %}
             <input type="checkbox" name="perm_room-admin" class="perm-choice" value="perm_room-admin" checked>
@@ -42,5 +42,8 @@
         <label for="perm_room-admin">supprimer un message</label>
     </fieldset>
     <input type="submit" value="Modifier">
+    {% if useradmin %}
+        <a id="ban" href="{% url 'room:ban' user.user.id %}">Ban</a>
+    {% endif %}
 </form>
 {% endblock %}
