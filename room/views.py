@@ -18,8 +18,11 @@ def home(request):
     userData = UserData.objects.get(user=request.user)
     filteredRooms = []
     for room in rooms:
+        permInRoom = RoomPermission.objects.filter(room=room, user=request.user)
         roomPerms = RoomPermission.objects.filter(room=room.id, user=request.user)
-        if Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger,USER_ROOM_READ) or (roomPerms.exists() and Perms.test(roomPerms[0].permission, ROOM_READ)) :
+        pgen = (Perms.test(userData.permissionInteger,USER_ROOM_READ) and (roomPerms.exists() and Perms.test(roomPerms[0].permission, ROOM_READ)))
+        proom = (Perms.test(userData.permissionInteger,USER_ADMIN) or permInRoom.exists() and (Perms.test(permInRoom[0].permission, ROOM_ADMIN)))
+        if (pgen or proom):
             filteredRooms.append(room)
     
     ctx = {
@@ -313,8 +316,11 @@ def getRooms(request):
         userData = UserData.objects.get(user=request.user)
         filteredRooms = []
         for room in rooms:
+            permInRoom = RoomPermission.objects.filter(room=room, user=request.user)
             roomPerms = RoomPermission.objects.filter(room=room.id, user=request.user)
-            if Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger,USER_ROOM_READ) or (roomPerms.exists() and Perms.test(roomPerms[0].permission, ROOM_READ)) :
+            pgen = (Perms.test(userData.permissionInteger,USER_ROOM_READ) and (roomPerms.exists() and Perms.test(roomPerms[0].permission, ROOM_READ)))
+            proom = (Perms.test(userData.permissionInteger,USER_ADMIN) or permInRoom.exists() and (Perms.test(permInRoom[0].permission, ROOM_ADMIN)))
+            if (pgen or proom):
                 filteredRooms.append(room)
         
         #on les met dans un tableau
