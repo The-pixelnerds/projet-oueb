@@ -57,7 +57,7 @@ def room(request, room_id):
 
     usersess = ""
     if request.method == 'POST':
-        if Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger, USER_MESSAGE_WRITE) or (permInRoom.exists() and Perms.test(permInRoom[0].permission, ROOM_MESSAGE_WRITE)):
+        if Perms.test(userData.permissionInteger,USER_ADMIN) or (Perms.test(userData.permissionInteger, USER_MESSAGE_WRITE) and (permInRoom.exists() and Perms.test(permInRoom[0].permission, ROOM_MESSAGE_WRITE))):
             # on recupere l'utilisateur qui a envoye le message
             
             if request.POST["message"] != "":
