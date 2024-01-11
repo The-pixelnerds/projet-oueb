@@ -47,13 +47,13 @@ def room(request, room_id):
     filteredRooms = []
     for room in rooms:
         roomPerms = RoomPermission.objects.filter(room=room.id, user=request.user)
-        if Perms.test(userData.permissionInteger,USER_ADMIN) or Perms.test(userData.permissionInteger,USER_ROOM_READ) or (roomPerms.exists() and Perms.test(roomPerms[0].permission, ROOM_READ)) :
+        if Perms.test(userData.permissionInteger,USER_ADMIN) or (Perms.test(userData.permissionInteger,USER_ROOM_READ) and (roomPerms.exists() and Perms.test(roomPerms[0].permission, ROOM_READ))) :
             filteredRooms.append(room)
     
-    if (Perms.test(userData.permissionInteger,USER_ADMIN) == False and Perms.test(userData.permissionInteger, ROOM_READ) == False):
-        if ((not permInRoom.exists()) or ((Perms.test(permInRoom[0].permission, ROOM_ADMIN) == False and Perms.test(permInRoom[0].permission, ROOM_READ) == False))):
-            print("test")
-            return redirect('/channels')
+    pgen = (Perms.test(userData.permissionInteger,USER_ROOM_READ) and (roomPerms.exists() and Perms.test(roomPerms[0].permission, ROOM_READ)))
+    proom = (Perms.test(userData.permissionInteger,USER_ADMIN) or permInRoom.exists() and (Perms.test(permInRoom[0].permission, ROOM_ADMIN)))
+    if not (pgen or proom):
+        return redirect('/channels')
 
     usersess = ""
     if request.method == 'POST':
