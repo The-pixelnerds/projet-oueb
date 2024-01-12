@@ -328,7 +328,7 @@ def getRooms(request):
         for room in filteredRooms:
             tab.append({
                 'id': room.id,
-                'name': room.name
+                'name': room.name.replace("<", "<.")
             })
         #on renvoi le tableau en json
         return http.JsonResponse(tab, safe=False)
